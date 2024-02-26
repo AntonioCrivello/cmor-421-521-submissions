@@ -6,3 +6,6 @@
 
 #Ignore object files
 *.o
+
+#Ignore .DS_Store
+.DS_Store

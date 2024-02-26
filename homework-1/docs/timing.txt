@@ -1,26 +1,38 @@
 Timings for Matrix of size m x n = 16
 Matrix size: m x n = 16 x 16
-Elapsed time for naive matrix-matrix multiplication  = 3.4224e-05
-Elapsed time for blocked matrix-matrix multiplication  = 2.2849e-05
+Elapsed time for naive matrix-matrix multiplication  = 3.2519e-05
+Elapsed time for blocked matrix-matrix multiplication  = 1.7688e-05
 
 
 Timings for Matrix of size m x n = 32
 Matrix size: m x n = 32 x 32
-Elapsed time for naive matrix-matrix multiplication  = 0.000233282
-Elapsed time for blocked matrix-matrix multiplication  = 0.000152326
+Elapsed time for naive matrix-matrix multiplication  = 0.000189805
+Elapsed time for blocked matrix-matrix multiplication  = 0.000125289
 
 
 Timings for Matrix of size m x n = 64
 Matrix size: m x n = 64 x 64
-Elapsed time for naive matrix-matrix multiplication  = 0.00151855
-Elapsed time for blocked matrix-matrix multiplication  = 0.00107779
+Elapsed time for naive matrix-matrix multiplication  = 0.00154409
+Elapsed time for blocked matrix-matrix multiplication  = 0.00107653
 
 
 Timings for Matrix of size m x n = 128
 Matrix size: m x n = 128 x 128
-Elapsed time for naive matrix-matrix multiplication  = 0.0126317
-Elapsed time for blocked matrix-matrix multiplication  = 0.00841859
+Elapsed time for naive matrix-matrix multiplication  = 0.0128097
+Elapsed time for blocked matrix-matrix multiplication  = 0.00883074
 
 
 Timings for Matrix of size m x n = 256
 Matrix size: m x n = 256 x 256
+Elapsed time for naive matrix-matrix multiplication  = 0.114884
+Elapsed time for blocked matrix-matrix multiplication  = 0.0928566
+
+
+Timings for Matrix of size m x n = 512
+Matrix size: m x n = 512 x 512
+Elapsed time for naive matrix-matrix multiplication  = 11.2282
+Elapsed time for blocked matrix-matrix multiplication  = 12.1331
+
+
+Timings for Matrix of size m x n = 1024
+Matrix size: m x n = 1024 x 1024
