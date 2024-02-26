@@ -1,3 +1,8 @@
-*.gitattributes
-*.vscode
+#Ignore .gitattributes
+.gitattributes
+
+#Ignore .vscode directory
+.vscode/
+
+#Ignore object files
 *.o
