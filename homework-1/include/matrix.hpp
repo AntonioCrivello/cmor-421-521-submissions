@@ -8,34 +8,34 @@ public:
     //Constructor of Matrix Class
     Matrix(int rows, int columns){
         //Number of rows in matrix
-        rows = rows;
+        _rows = rows;
         
         //Number of columns in marix
-        columns = columns;
+        _columns = columns;
 
         //Data contained in matrix
-        data = new double [rows * columns];
-    }
-
-    //Destructor for Matrix Class
-    ~Matrix(){
-        delete [] data;
+        _data = new double [rows * columns];
     }
 
     //Returns number of rows of matrix
-    int num_rows() const { return rows; };
+    int num_rows() const { return _rows; };
     
     //Returns number of columns of matrix
-    int num_columns() const {return columns; };
+    int num_columns() const {return _columns; };
 
+    //Destructor for Matrix Class
+    ~Matrix(){
+        delete [] _data;
+    }
+    
     //Overloaded operator to return matrix value at row i, column j
     double & operator()(int row, int column);
 
 private:
 
-    double * data;
-    int rows;
-    int columns;
+    double * _data;
+    int _rows;
+    int _columns;
 
 };
 
