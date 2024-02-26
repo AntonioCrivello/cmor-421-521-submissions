@@ -72,10 +72,21 @@ void matmul_recursive(Matrix * A, Matrix * B, Matrix * C, int newSize, int size)
 
 }
 
-int main(void) {
+int main(int argc, char * argv[]) {
 
-    int m = 64;
-    int n = 64;
+    if (argc < 2){
+
+        cout << "Missing inputs." << endl;
+        //Exit the program
+        exit(EXIT_FAILURE);
+
+    }
+
+    //User input of number of rows
+    int m = atoi(argv[1]);
+    //Given matrix is square, number of rows are equal to number of columns
+    int n = m;
+    cout << "Matrix size: m x n = " << m << " x " << n << endl;
 
     //Size of matrices A, B, and C
     int matrixSize = n;
@@ -108,15 +119,15 @@ int main(void) {
     }
 
 
-    // Print matrix C
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << C(i, j) << " ";
-        }
-        cout << endl;
-    }
+    // // Print matrix C
+    // for (int i = 0; i < m; i++) {
+    //     for (int j = 0; j < n; j++) {
+    //         cout << C(i, j) << " ";
+    //     }
+    //     cout << endl;
+    // }
 
-    int numTrials = 100;
+    int numTrials = 1000;
 
     //Timings for Naive Matrix-Matrix Multiplcation
     high_resolution_clock::time_point startNaive = high_resolution_clock::now();
@@ -133,11 +144,11 @@ int main(void) {
         //     }
         //     cout << endl;
         // }
-        cout << i << endl;
+        //cout << i << endl;
 
     }
 
-    cout << "=============================================================" << endl; 
+    //cout << "=============================================================" << endl; 
 
     high_resolution_clock::time_point endNaive = high_resolution_clock::now();
     duration<double> elapsed_matmul_naive = (endNaive - startNaive) / numTrials;
@@ -158,38 +169,40 @@ int main(void) {
         //     cout << endl;
         // }
 
-        cout << i << endl;
+        //cout << i << endl;
 
     }
 
     high_resolution_clock::time_point endBlocked = high_resolution_clock::now();
     duration<double> elapsed_matmul_blocked = (endBlocked - startBlocked) / numTrials;
 
-    //Timings for Recursive Matrix-Matrix Multiplication
-    high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
+    // //Timings for Recursive Matrix-Matrix Multiplication
+    // high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
     
-    for (int i = 0; i < numTrials; i++){
-        Matrix copyC = C;
-        matmul_recursive(& A, & B, & C, matrixSize / 2, matrixSize);
+    // for (int i = 0; i < numTrials; i++){
+    //     Matrix copyC = C;
+    //     matmul_recursive(& A, & B, & C, matrixSize / 2, matrixSize);
 
-        cout << "\n" "" << endl;
-        // Print matrix C
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                cout << copyC(i, j) << " ";
-            }
-            cout << endl;
-        }
-    }
+    //     cout << "\n" "" << endl;
+    //     // Print matrix C
+    //     for (int i = 0; i < m; i++) {
+    //         for (int j = 0; j < n; j++) {
+    //             cout << copyC(i, j) << " ";
+    //         }
+    //         cout << endl;
+    //     }
+    // }
 
-    high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
-    duration<double> elapsed_matmul_recursive = (endRecursive - startRecursive) / numTrials;
+    // high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
+    // duration<double> elapsed_matmul_recursive = (endRecursive - startRecursive) / numTrials;
 
     cout << "Elapsed time for naive matrix-matrix multiplication  = " << elapsed_matmul_naive.count() << endl; 
     cout << "Elapsed time for blocked matrix-matrix multiplication  = " << elapsed_matmul_blocked.count() << endl; 
-    cout << "Elapsed time for recursive matrix-matrix multiplication  = " << elapsed_matmul_recursive.count() << endl; 
+    //cout << "Elapsed time for recursive matrix-matrix multiplication  = " << elapsed_matmul_recursive.count() << endl; 
 
     return 0;
 
+    //Had to do this
+    //chmod +x generate-timings.sh
 }
 

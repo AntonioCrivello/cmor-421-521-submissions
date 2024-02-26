@@ -23,13 +23,13 @@ CFLAGS += -std=c++11
 DEPS = $(INC_FILES)
 
 #Define targets
-all: rec_matmul
+all: matmul_recursive
 
-rec_matmul: $(OBJ_FILES) main.cpp
+matmul_recursive: $(OBJ_FILES) main.cpp
 	$(CC) $^ $(CFLAGS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(DEPS)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
-	rm -f rec_matmul $(OBJ_DIR)/*.o *~ *.o
+	rm -f matmul_recursive $(OBJ_DIR)/*.o *~ *.o
