@@ -6,7 +6,7 @@
 using namespace std;
 using namespace std::chrono;
 
-#define BLOCK_SIZE 16
+#define BLOCK_SIZE 32
 
 void matmul_naive(Matrix * A, Matrix * B, Matrix * C, const int n){
     for (int i = 0; i < n; ++i){
@@ -41,33 +41,36 @@ void matmul_blocked(Matrix * A, Matrix * B, Matrix * C, const int n, int block_s
   }
 }
 
-void matmul_recursive(Matrix * A, Matrix * B, Matrix * C, int newSize, int size) {
+void matmul_recursive(Matrix * A, Matrix * B, Matrix * C, int rowA, int colA, int rowB, int colB, int rowC, int colC, int size){
 
     if (size <= BLOCK_SIZE) {
-        for (int i = 0; i < newSize; i++){
-            for (int j = 0; j < newSize; j++){
-                (* C)(i,j) += (* A)(i,j) * (* B)(i,j) ;
+         for (int i = 0; i < size; ++i){
+            for (int j = 0; j < size; ++j){
+                for (int k = 0; k < size; ++k){
+                    (*C)(rowC + i, colC + j) += (*A)(rowA + i, colA + k) * (*B)(rowB + k, colB + j);
+                }
             }
         }
  
     } else {
-        
+
+        int newSize = size / 2;
+
         //C00 = RMM(A00, B00, n / 2) + RMM(A01, B10, n / 2)
-        matmul_recursive(A, B, C, newSize / 2, newSize);
-        matmul_recursive(A + newSize, B, C, newSize / 2, newSize);
+        matmul_recursive(A, B, C, rowA, colA, rowB, colB, rowC, colC, newSize);
+        matmul_recursive(A, B, C, rowA, colA + newSize, rowB + newSize, colB, rowC, colC, newSize);
 
         //C01 = RMM(A00, B01, n / 2) + RMM(A01, B11, n / 2)
-        matmul_recursive(A, B + newSize, C, newSize / 2, newSize);
-        matmul_recursive(A + newSize, B + newSize, C, newSize / 2, newSize);
+        matmul_recursive(A, B, C, rowA, colA, rowB, colB + newSize, rowC, colC + newSize, newSize);
+        matmul_recursive(A, B, C, rowA, colA + newSize, rowB + newSize, colB + newSize, rowC, colC + newSize, newSize);
 
         //C10 = RMM(A10, B00, n / 2) + RMM(A11, B10, n / 2)
-        matmul_recursive(A + newSize, B, C + newSize, newSize / 2, newSize);
-        matmul_recursive(A + 2 * newSize, B, C + newSize, newSize / 2, newSize);
+        matmul_recursive(A, B, C, rowA + newSize, colA, rowB, colB, rowC + newSize, colC, newSize);
+        matmul_recursive(A, B, C, rowA + newSize, colA + newSize, rowB + newSize, colB, rowC + newSize, colC, newSize);
 
         //C11 = RMM(A10, B01, n / 2) + RMM(A11, B11, n / 2)
-        matmul_recursive(A + newSize, B + newSize, C + newSize, newSize / 2, newSize);
-        matmul_recursive(A + 2 * newSize, B + newSize, C + newSize, newSize / 2, newSize);
-
+        matmul_recursive(A, B, C, rowA + newSize, colA, rowB, colB + newSize, rowC + newSize, colC + newSize, newSize);
+        matmul_recursive(A, B, C, rowA + newSize, colA + newSize, rowB + newSize, colB + newSize, rowC + newSize, colC + newSize, newSize);
     }
 
 }
@@ -127,7 +130,7 @@ int main(int argc, char * argv[]) {
     //     cout << endl;
     // }
 
-    int numTrials = 1000;
+    int numTrials = 5;
 
     //Timings for Naive Matrix-Matrix Multiplcation
     high_resolution_clock::time_point startNaive = high_resolution_clock::now();
@@ -176,29 +179,32 @@ int main(int argc, char * argv[]) {
     high_resolution_clock::time_point endBlocked = high_resolution_clock::now();
     duration<double> elapsed_matmul_blocked = (endBlocked - startBlocked) / numTrials;
 
-    // //Timings for Recursive Matrix-Matrix Multiplication
-    // high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
+    //Timings for Recursive Matrix-Matrix Multiplication
+    high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
     
-    // for (int i = 0; i < numTrials; i++){
-    //     Matrix copyC = C;
-    //     matmul_recursive(& A, & B, & C, matrixSize / 2, matrixSize);
+    for (int k = 0; k < numTrials; k++){
+        Matrix copyC = C;
+        matmul_recursive(& A, & B, & copyC, 0, 0, 0, 0, 0, 0, matrixSize);
 
-    //     cout << "\n" "" << endl;
-    //     // Print matrix C
-    //     for (int i = 0; i < m; i++) {
-    //         for (int j = 0; j < n; j++) {
-    //             cout << copyC(i, j) << " ";
-    //         }
-    //         cout << endl;
-    //     }
-    // }
+        // if (k == 0){
+        //     cout << "\n" "" << endl;
+        //     // Print matrix C
+        //     for (int i = 0; i < m; i++) {
+        //         for (int j = 0; j < n; j++) {
+        //             cout << copyC(i, j) << " ";
+        //         }
+        //         cout << endl;
+        //     }
+        // }
 
-    // high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
-    // duration<double> elapsed_matmul_recursive = (endRecursive - startRecursive) / numTrials;
+    }
+
+    high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
+    duration<double> elapsed_matmul_recursive = (endRecursive - startRecursive) / numTrials;
 
     cout << "Elapsed time for naive matrix-matrix multiplication  = " << elapsed_matmul_naive.count() << endl; 
     cout << "Elapsed time for blocked matrix-matrix multiplication  = " << elapsed_matmul_blocked.count() << endl; 
-    //cout << "Elapsed time for recursive matrix-matrix multiplication  = " << elapsed_matmul_recursive.count() << endl; 
+    cout << "Elapsed time for recursive matrix-matrix multiplication  = " << elapsed_matmul_recursive.count() << endl; 
 
     return 0;
 
