@@ -75,15 +75,8 @@ g++ obj/matrix.o main.cpp -I./include -O3 -std=c++11 -o matmul_recursive
 
 In order to efficiently generate timings for matrix sizes of 2^i for i = 4,5,6 ... 10
 I have also created a bash script that runs the executable with the changing matrix size as the argument. 
-Bef
 
-//Had to do this
-//chmod +x generate-timings.sh
-
-[amc50@bc9u7n1 homework-1]$ ./matmul_recursive 512
-
-
-Describe generate-timings.sh
+[amc50@bc9u7n1 homework-1]$ ./generate-timings.sh 
 
 \end{verbatim}
 
