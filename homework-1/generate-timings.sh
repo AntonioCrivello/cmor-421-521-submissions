@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Clean and compile
+#Clean and compile
 make clean
 make
 
@@ -8,7 +8,7 @@ make
 rm -rf "docs/timing.csv"
 
 # CSV header
-echo "Matrix Size ,Block Size, Naive Timing, Blocked Timing, Recursive Timing" >> "docs/timing.csv"
+echo "Matrix Size, Block Size, Naive Timing, Blocked Timing, Recursive Timing" >> "docs/timing.csv"
 
 # Create the time for matrix sizes of 2^i for i = 4, 5, 6, ..., 10
 
