@@ -59,7 +59,7 @@ void matmul_recursive(double *A, double *B, double *C, int rowA, int colA, int r
                 for (int k = 0; k < size; ++k) {
                     double Aij = A[(rowA + i) * n + (colA + k)];
                     double Bjk = B[(rowB + k) * n + (colB + j)];
-                    //C[(rowC + i) * n + (colC + j)] += A[(rowA + i) * n + (colA + k)] * B[(rowB + k) * n + (colB + j)];
+                    // C[(rowC + i) * n + (colC + j)] += A[(rowA + i) * n + (colA + k)] * B[(rowB + k) * n + (colB + j)];
                     Cij += Aij * Bjk;
                 }
                 C[(rowC + i) * n + (colC + j)] = Cij;
