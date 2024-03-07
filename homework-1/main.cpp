@@ -91,7 +91,7 @@ void matmul_recursive(double *A, double *B, double *C, int rowA, int colA, int r
 void matmul_recursive_intermediates(double *A, double *B, double *C, int rowA, int colA, int rowB,
                                     int colB, int rowC, int colC, int size, int blockSize, const int n)
 {
-    //Recursive Matrix-Matrix multiplication with intermediate doubles.
+    // Recursive Matrix-Matrix multiplication with intermediate doubles.
     if (size <= blockSize)
     {
         for (int i = 0; i < size; ++i)
@@ -131,6 +131,38 @@ void matmul_recursive_intermediates(double *A, double *B, double *C, int rowA, i
     }
 }
 
+void correctness_check(double *C, const int n) {
+    double *I = new double [n * n];
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (i == j) {
+                I[i * n + j] = 1.0;
+            } else {
+                I[i * n + j] = 0.0;
+            }
+        }
+    }
+    //Tolerance for machine precision
+    float tol = 1e-15 * n;
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) { 
+            sum += fabs(I[i * n +j] - C[i * n + j]);
+        }
+    }
+
+    cout << sum << endl;
+
+    if (sum > tol) {
+        cout << "Matrix C does not equal I to machine precision" << endl;
+    } else {
+        cout << "Matrix C equals I to machine precision" << endl;
+    }
+
+    //Free allocated memory for identity matrix
+    delete[] I;
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -144,8 +176,6 @@ int main(int argc, char *argv[])
     // User input of size for square matrix, with number of rows same as columns
     int m = atoi(argv[1]);
     int n = m;
-    cout << "m = " << m << endl;
-    // cout << "Matrix size: m x n = " << m << " x " << n << endl;
 
     // User defined block size
     int blockSize = atoi(argv[2]);
@@ -155,7 +185,7 @@ int main(int argc, char *argv[])
     double *B = new double[m * n];
     double *C = new double[m * n];
 
-    //Define matrices A and B as the identity matrix
+    // Define matrices A and B as the identity matrix
     for (int i = 0; i < m; ++i)
     {
         for (int j = 0; j < n; ++j)
@@ -173,14 +203,14 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Define matrix C as the zero matric
+    // Define matrix C as the zero matrix
     for (int i = 0; i < m * n; ++i)
     {
         C[i] = 0.0;
     }
 
     // Number of trials to get consistent timings
-    int numTrials = 50;
+    int numTrials = 30;
 
     // Timing for Naive Matrix-Matrix Multiplication
     high_resolution_clock::time_point startNaive = high_resolution_clock::now();
@@ -193,19 +223,22 @@ int main(int argc, char *argv[])
             C[i] = 0.0;
         }
         high_resolution_clock::time_point resetEndNaive = high_resolution_clock::now();
-        resetTimeNaive += duration_cast<duration<double>>(resetStartNaive - resetEndNaive);
+        resetTimeNaive += duration_cast<duration<double>>(resetEndNaive - resetStartNaive);
         matmul_naive(A, B, C, m);
+        high_resolution_clock::time_point checkStartNaive = high_resolution_clock::now();
+        correctness_check(C, n);
+        high_resolution_clock::time_point checkEndNaive = high_resolution_clock::now();
+        resetTimeNaive += duration_cast<duration<double>>(checkEndNaive - checkStartNaive);
     }
     high_resolution_clock::time_point endNaive = high_resolution_clock::now();
     duration<double> elapsedNaive = duration_cast<duration<double>>((endNaive - startNaive - resetTimeNaive) / numTrials);
-    //duration<double> elapsedNaive = (endNaive - startNaive) / numTrials;
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i + j * n] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    cout << "=================================================" << endl;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cout << C[i * n + j] << " ";
+        }
+        cout << endl;
+    }
 
     // Timing for Blocked Matrix-Matrix Multiplication
     high_resolution_clock::time_point startBlocked = high_resolution_clock::now();
@@ -218,20 +251,22 @@ int main(int argc, char *argv[])
             C[i] = 0.0;
         }
         high_resolution_clock::time_point resetEndBlocked = high_resolution_clock::now();
-        resetTimeBlocked += duration_cast<duration<double>>(resetStartBlocked - resetEndBlocked);
+        resetTimeBlocked += duration_cast<duration<double>>(resetEndBlocked - resetStartBlocked);
         matmul_blocked(A, B, C, m, blockSize);
+        high_resolution_clock::time_point checkStartBlocked = high_resolution_clock::now();
+        correctness_check(C, n);
+        high_resolution_clock::time_point checkEndBlocked = high_resolution_clock::now();
+        resetTimeBlocked += duration_cast<duration<double>>(checkEndBlocked - checkStartBlocked);
     }
     high_resolution_clock::time_point endBlocked = high_resolution_clock::now();
     duration<double> elapsedBlocked = duration_cast<duration<double>>((endBlocked - startBlocked - resetTimeBlocked) / numTrials);
-    // duration<double> elapsedBlocked = (endBlocked - startBlocked) / numTrials;
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i + j * n] << " ";
-    //     }
-    //     cout << endl;
-    // }
-
+    cout << "=================================================" << endl;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cout << C[i * n + j] << " ";
+        }
+        cout << endl;
+    }
 
     // Timing for Recursive Matrix-Matrix Multiplication
     high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
@@ -244,19 +279,22 @@ int main(int argc, char *argv[])
             C[i] = 0.0;
         }
         high_resolution_clock::time_point resetEndRecursive = high_resolution_clock::now();
-        resetTimeRecursive += duration_cast<duration<double>>(resetStartRecursive - resetEndRecursive);
+        resetTimeRecursive += duration_cast<duration<double>>(resetEndRecursive - resetStartRecursive);
         matmul_recursive(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
+        high_resolution_clock::time_point checkStartRecursive = high_resolution_clock::now();
+        correctness_check(C, n);
+        high_resolution_clock::time_point checkEndRecursive = high_resolution_clock::now();
+        resetTimeRecursive += duration_cast<duration<double>>(checkEndRecursive - checkStartRecursive);
     }
     high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
     duration<double> elapsedRecursive = duration_cast<duration<double>>((endRecursive - startRecursive - resetTimeRecursive) / numTrials);
-    //duration<double> elapsedRecursive = (endRecursive - startRecursive) / numTrials;
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i + j * n] << " ";
-    //     }
-    //     cout << endl;
-    // }
+     cout << "=================================================" << endl;
+     for (int i = 0; i < n; ++i) {
+         for (int j = 0; j < n; ++j) {
+             cout << C[i * n + j] << " ";
+         }
+         cout << endl;
+     }
 
     // Timing for Recursive Matrix-Matrix Multiplication with intermediate doubles
     high_resolution_clock::time_point startRecursiveIntermediates = high_resolution_clock::now();
@@ -269,20 +307,24 @@ int main(int argc, char *argv[])
             C[i] = 0.0;
         }
         high_resolution_clock::time_point resetEndRecursiveIntermediates = high_resolution_clock::now();
-        resetTimeRecursive += duration_cast<duration<double>>(resetStartRecursiveIntermediates - resetEndRecursiveIntermediates);
+        resetTimeRecursiveIntermediates += duration_cast<duration<double>>(resetEndRecursiveIntermediates - resetStartRecursiveIntermediates);
         matmul_recursive_intermediates(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
+        high_resolution_clock::time_point checkStartRecursiveIntermediates = high_resolution_clock::now();
+        correctness_check(C, n);
+        high_resolution_clock::time_point checkEndRecursiveIntermediates = high_resolution_clock::now();
+        resetTimeRecursiveIntermediates += duration_cast<duration<double>>(checkEndRecursiveIntermediates- checkStartRecursiveIntermediates);
     }
     high_resolution_clock::time_point endRecursiveIntermediates = high_resolution_clock::now();
     duration<double> elapsedRecursiveIntermediates = duration_cast<duration<double>>((endRecursiveIntermediates - startRecursiveIntermediates - resetTimeRecursiveIntermediates) / numTrials);
-    //duration<double> elapsedRecursive = (endRecursive - startRecursive) / numTrials;
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i + j * n] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    cout << "=================================================" << endl;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cout << C[i * n + j] << " ";
+        }
+        cout << endl;
+    }
 
+    cout << "Matrix Size = " << n << ", Block Size = " << blockSize << endl;
     cout << "Average Elapsed Time for Naive Implementation (seconds) = " << elapsedNaive.count() << endl;
     cout << "Average Elapsed Time for Blocked Implementation (seconds) = " << elapsedBlocked.count() << endl;
     cout << "Average Elapsed Time for Recursive Implementation (seconds) = " << elapsedRecursive.count() << endl;
