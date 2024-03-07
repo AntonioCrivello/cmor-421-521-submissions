@@ -68,7 +68,7 @@ void matmul_recursive(double *A, double *B, double *C, int rowA, int colA, int r
     }
     else
     {
-        //Splits block size in half
+        // Splits block size in half
         int newSize = size / 2;
 
         // C00 = RMM(A00, B00, n / 2) + RMM(A01, B10, n / 2)
@@ -112,7 +112,7 @@ void matmul_recursive_intermediates(double *A, double *B, double *C, int rowA, i
     }
     else
     {
-        //Splits block size in half
+        // Splits block size in half
         int newSize = size / 2;
 
         // C00 = RMM(A00, B00, n / 2) + RMM(A01, B10, n / 2)
@@ -133,34 +133,43 @@ void matmul_recursive_intermediates(double *A, double *B, double *C, int rowA, i
     }
 }
 
-void correctness_check(double *C, const int n) {
-    //Define I as the identity matrix
-    double *I = new double [n * n];
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            if (i == j) {
+void correctness_check(double *C, const int n)
+{
+    // Define I as the identity matrix
+    double *I = new double[n * n];
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            if (i == j)
+            {
                 I[i * n + j] = 1.0;
-            } else {
+            }
+            else
+            {
                 I[i * n + j] = 0.0;
             }
         }
     }
-    //Tolerance for machine precision
+    // Tolerance for machine precision
     float tol = 1e-14 * n;
-    //Initial sum
+    // Initial sum
     double sum = 0.0;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) { 
-            sum += fabs(I[i * n +j] - C[i * n + j]);
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            sum += fabs(I[i * n + j] - C[i * n + j]);
         }
     }
 
-    //Check correctness of implementation
-    if (sum > tol) {
+    // Check correctness of implementation
+    if (sum > tol)
+    {
         cout << "Matrix C does not equal I to machine precision" << endl;
     }
 
-    //Free allocated memory for identity matrix
+    // Free allocated memory for identity matrix
     delete[] I;
 }
 
@@ -272,7 +281,7 @@ int main(int argc, char *argv[])
         high_resolution_clock::time_point startRecursiveIntermediates = high_resolution_clock::now();
         matmul_recursive_intermediates(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
         high_resolution_clock::time_point endRecursiveIntermediates = high_resolution_clock::now();
-        elapsedRecursiveIntermediates += duration_cast<duration<double>>(endRecursiveIntermediates- startRecursiveIntermediates);
+        elapsedRecursiveIntermediates += duration_cast<duration<double>>(endRecursiveIntermediates - startRecursiveIntermediates);
         correctness_check(C, n);
     }
     elapsedRecursiveIntermediates /= numTrials;
