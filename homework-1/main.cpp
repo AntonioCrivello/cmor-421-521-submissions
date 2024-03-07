@@ -286,14 +286,6 @@ int main(int argc, char *argv[])
     }
     elapsedRecursiveIntermediates /= numTrials;
 
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i * n + j] << " ";
-    //     }
-    //     cout << endl;
-    // }
-
     cout << "Matrix Size = " << n << ", Block Size = " << blockSize << endl;
     cout << "Average Elapsed Time for Naive Implementation (seconds) = " << elapsedNaive.count() << endl;
     cout << "Average Elapsed Time for Blocked Implementation (seconds) = " << elapsedBlocked.count() << endl;
