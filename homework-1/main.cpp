@@ -68,6 +68,7 @@ void matmul_recursive(double *A, double *B, double *C, int rowA, int colA, int r
     }
     else
     {
+        //Splits block size in half
         int newSize = size / 2;
 
         // C00 = RMM(A00, B00, n / 2) + RMM(A01, B10, n / 2)
@@ -111,6 +112,7 @@ void matmul_recursive_intermediates(double *A, double *B, double *C, int rowA, i
     }
     else
     {
+        //Splits block size in half
         int newSize = size / 2;
 
         // C00 = RMM(A00, B00, n / 2) + RMM(A01, B10, n / 2)
@@ -209,7 +211,7 @@ int main(int argc, char *argv[])
     }
 
     // Number of trials to get consistent timings
-    int numTrials = 20;
+    int numTrials = 50;
 
     // Timing for Naive Matrix-Matrix Multiplication
     duration<double> elapsedNaive(0);
