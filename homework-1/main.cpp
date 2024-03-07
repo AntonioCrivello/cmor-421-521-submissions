@@ -52,7 +52,6 @@ void matmul_blocked(double *A, double *B, double *C, const int n, int block_size
 void matmul_recursive(double *A, double *B, double *C, int rowA, int colA, int rowB,
                       int colB, int rowC, int colC, int size, int blockSize, const int n)
 {
-
     if (size <= blockSize)
     {
         for (int i = 0; i < size; ++i)
@@ -152,7 +151,7 @@ void correctness_check(double *C, const int n)
         }
     }
     // Tolerance for machine precision
-    float tol = 1e-14 * n;
+    float tol = 1e-15 * n;
     // Initial sum
     double sum = 0.0;
     for (int i = 0; i < n; ++i)
@@ -222,6 +221,14 @@ int main(int argc, char *argv[])
     // Number of trials to get consistent timings
     int numTrials = 50;
 
+    //Defines lower bounds for rows and columns in submatrices
+    int rowA = 0;
+    int rowB = 0;
+    int rowC = 0;
+    int colA = 0;
+    int colB = 0;
+    int colC = 0;
+
     // Timing for Naive Matrix-Matrix Multiplication
     duration<double> elapsedNaive(0);
     for (int trial = 0; trial < numTrials; ++trial)
@@ -263,7 +270,7 @@ int main(int argc, char *argv[])
             C[i] = 0.0;
         }
         high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
-        matmul_recursive(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
+        matmul_recursive(A, B, C, rowA, colA, rowB, colB, rowC, colC, m, blockSize, n);
         high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
         elapsedRecursive += duration_cast<duration<double>>(endRecursive - startRecursive);
         correctness_check(C, n);
@@ -279,7 +286,7 @@ int main(int argc, char *argv[])
             C[i] = 0.0;
         }
         high_resolution_clock::time_point startRecursiveIntermediates = high_resolution_clock::now();
-        matmul_recursive_intermediates(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
+        matmul_recursive_intermediates(A, B, C, rowA, colA, rowB, colB, rowC, colC, m, blockSize, n);
         high_resolution_clock::time_point endRecursiveIntermediates = high_resolution_clock::now();
         elapsedRecursiveIntermediates += duration_cast<duration<double>>(endRecursiveIntermediates - startRecursiveIntermediates);
         correctness_check(C, n);

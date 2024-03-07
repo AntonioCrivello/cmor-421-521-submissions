@@ -53,7 +53,7 @@ MacBook-Pro-95:cmor-421-521-submissions antoniocrivello$ ssh amc50@nots.rice.edu
 \noindent After accessing the SSH key, it is added to list of SSH keys on GitHub.
 
 \bigskip
-\noindent Command used to clone cmor-421-521-submission GitHub repository:
+\noindent Command used to clone cmor-421-521-submissions GitHub repository:
 \begin{verbatim}
 [amc50@bc9u7n1 ~]$ git clone git@github.com:AntonioCrivello/cmor-421-521-submissions.git    
 \end{verbatim}
@@ -72,7 +72,7 @@ g++ main.cpp -O3 -std=c++11 -o matmul_recursive
 \end{verbatim}
 
 \bigskip
-\noindent In order to efficiently generate timings for matrix sizes of $2^{i}$ for i = 4,5,6 ... 10, I have created a bash script to run the aforementioned make clean and make commands with the matrix size as an argument. Additionally, to determine the optimal block size for the block size dependent matrix-matrix multiplication methods these are also supplied as an argument to the executable. After initial testing it was observed that block sizes that are too large exhibited no improvement in the methods. For this reason block sizes above 256 are excluded from the rest of the report.
+\noindent In order to efficiently generate timings for matrix sizes of n = $2^{i}$ for i = 4,5,6 ... 10, I have created a Bash script to run the aforementioned make clean and make commands with the matrix size as an argument. Additionally, to determine the optimal block size for the block size dependent matrix-matrix multiplication methods these are also supplied as an argument to the executable. After initial testing it was observed that block sizes that are too large exhibited no improvement in the methods. For this reason block sizes above 256 are excluded from the rest of the report.
 
 \bigskip
 \noindent Command used to generate timings and compile project:
@@ -83,16 +83,16 @@ g++ main.cpp -O3 -std=c++11 -o matmul_recursive
 \section{Matrix-Matrix Multiplication}
 
 \subsection{Column Major Storage for Matrix-Matrix Multiplication}
-If the matrix was stored in column major format instead of row major format for matrix-matrix multiplication a few changes should be made. The first is to change how the memory is accessed during the implementation. With row major storage the memory is efficiently access by looping through the rows and then the columns. For the column major formatting, this should be changed, looping through the column first and then the row. This will allow the required data values to be located adjacent to each other. There is also a benefit in unrolling the innermost loop to reduce overhead and utilize the
-location of the column values.
+If the matrices involved in matrix-matrix multiplication were stored in column major format instead of row major format, consecutive elements within a row are no longer stored contiguously. As such, the structuring of the matrix-matrix multiplication is unable to take advantage of the cache locality and efficient memory accessing of elements in a row as the current implementation has it. To adjust for this, instead, the implementation needs to change so that the elements within a column are contiguously accessed to still benefit from memory locality. The simplest way to accomplish this is to change the loop order used during the matrix-matrix multiplication. Using the naive implementation as an example, the current implementation has the outer loop populate the rows of matrix \( C \) contiguously. To achieve this, the middle loop iterates over the columns of the matrix \( C \) on that row and the inner loop iterates over the elements within the row of matrix \( A \) and the column of matrix \( B \). For the column-major version, the loop order should change so that the outer loop iterates through the columns of matrix \( C \), middle loop through the rows, and the inner loop iterates within each column of matrix \( A \) and within each row of matrix \( B \). This will allow the required data values to be located adjacent to each other. Additionally, there is a potential benefit in unrolling the innermost loop to reduce overhead and utilize the location of the column values more effectively. 
 
 \subsection{Matrix Transpose}
-
-For matrices stored in column major format it is expected that $A^{T}B$ would be faster than AB. The primary reason this is the case is because when applying the transpose to matrix A and then multiplying to matrix B, the matrix-matrix multiplication involves looping through the rows of $A^{T}$ and the columns of B. Given then that A is stored in column major format, the transpose of the columns is the rows so the memory accessing will be contiguous. This is an improvement over the noncontiguous accessing that is required for row major containing. 
+When matrices are stored in column-major format, it is excepted that performing the operation $A^{T}B$ would be faster than \( AB\). The primary reason this is the case is because when applying the transpose to matrix \( A\) and then multiplying to matrix \( B\), the matrix-matrix multiplication involves iterating through the rows of $A^{T}$ and the columns of \( B\). Given then that A is stored in column-major format, transposing it results in the columns becoming the rows, ensuring contiguous memory access. Consequently, both $A^{T}$ and \( B \) benefit from contiguous memory access, which is an improvement over the singular contiguous memory access possible for \(AB \) in row-major format. Conversely, if the matrices are stored in row-major format, $A^{T}B$ is expected to be slower than \(AB \). This is because neither matrix would benefit from contiguous memory access, leading to iterations through the columns of \( A\) and columns of \( B\).
+\clearpage
 
 \section{Optimizing Matrix-Matrix Multiplication}
 
-\subsection{Timing}
+\subsection{Naive Matrix-Matrix Multiplication Timing}
+
 \begin{table}[ht!]
     \caption{Naive Matrix-Matrix Multiplication Timings (Seconds) on NOTS}
     \centering
@@ -103,25 +103,26 @@ For matrices stored in column major format it is expected that $A^{T}B$ would be
         \cline{2-8}
         \multicolumn{1}{|c|}{Matrix Size} & 4 & 8 & 16 & 32 & 64 & 128 & 256 \\
         \hline
-        n = 16 & 3.10545e-06 & 3.10125e-06 & 3.08615e-06 & & & & \\
+        n = 16 & 3.07974e-06 & 3.079e-06 & 3.0788e-06 & & & & \\
         \hline
-        n = 32 & 2.54184e-05 & 2.49542e-05 & 2.42004e-05 & 2.51914e-05 & & & \\
+        n = 32 & 2.50003e-05 & 2.35716e-05 & 2.53559e-05 & 2.51123e-05 & & & \\
         \hline
-        n = 64 & 0.000201979 & 0.00019916 & 0.000201801 & 0.000199571 & 0.000211543 & & \\
+        n = 64 & 0.000207474 & 0.000206754 & 0.000208333 & 0.000199271 & 0.000199479 & & \\
         \hline
-        n = 128 & 0.00200881 & 0.00199386 & 0.00203293 & 0.00199047 & 0.00208364 & 0.00199213 & \\
+        n = 128 & 0.0019859 & 0.00196828 & 0.00191194 & 0.00192037 & 0.00194726 & 0.00197747 & \\
         \hline
-        n = 256 & 0.0290755 & 0.028877 & 0.0289425 & 0.0287296 & 0.0286273 & 0.0280176 & 0.0283625 \\
+        n = 256 & 0.0279104 & 0.0280141 & 0.0287367 & 0.0287943 & 0.028138 & 0.0279499 & 0.0287771 \\
         \hline
-        n = 512 & 0.233694 & 0.233261 & 0.233572 & 0.233511 & 0.2335 & 0.233596 & 0.233555 \\
+        n = 512 & 0.233498 & 0.233413 & 0.233334 & 0.233284 & 0.233584 & 0.233391 & 0.233356 \\
         \hline 
-        n = 1024 & 1.85073 & 1.88143 & 1.85181 & 1.85074 & 1.84941 & 1.844 & 1.85132 \\
+        n = 1024 & 1.84701 & 1.8472 & 1.84773 & 1.84869 & 1.85021 & 1.84724 & 1.84663 \\
         \hline
     \end{tabular}
     }
 \end{table}
 
-\subsection{Timing}
+
+\subsection{Blocked Matrix-Matrix Multiplication Timing}
 \begin{table}[ht!]
     \caption{Blocked Matrix-Matrix Multiplication Timings (Seconds) on NOTS}
     \centering
@@ -132,19 +133,19 @@ For matrices stored in column major format it is expected that $A^{T}B$ would be
         \cline{2-8}
         \multicolumn{1}{|c|}{Matrix Size} & 4 & 8 & 16 & 32 & 64 & 128 & 256 \\
         \hline
-        n = 16 & 4.285e-06 & 3.08285e-06 & 3.18565e-06 & & & & \\
+        n = 16 & 5.19284e-06 & 3.51702e-06 & 3.50028e-06 & & & & \\
         \hline
-        n = 32 & 3.27257e-05 & 2.49542e-05 & 2.42004e-05 & 2.51914e-05 & & & \\
+        n = 32 & 3.67851e-05 & 2.57295e-05 & 2.7263e-05 & 2.5416e-05 & & & \\
         \hline
-        n = 64 & 0.000248281 & 0.00019916 & 0.000201801 & 0.000199571 & 0.000211543 & & \\
+        n = 64 & 0.00028435 & 0.000220714 & 0.000204823 & 0.000191006 & 0.000204107 & & \\
         \hline
-        n = 128 & 0.00193728 & 0.0014215 & 0.00131316 & 0.00143792 & 0.00210973 & 0.00189773 & \\
+        n = 128 & 0.002123 & 0.00163014 & 0.00151718 & 0.00148115 & 0.00209127 & 0.00193627 & \\
         \hline
-        n = 256 & 0.0185984 & 0.0118275 & 0.0111113 & 0.0151655 & 0.015999 & 0.020307 & 0.0279572 \\
+        n = 256 & 0.0192998 & 0.0136306 & 0.0122848 & 0.0155541 & 0.0169318 & 0.0214555 & 0.0289351 \\
         \hline
-        n = 512 & 0.155723 & 0.103269 & 0.113957 & 0.164497 & 0.216412 & 0.228384 & 0.232447 \\
+        n = 512 & 0.158257 & 0.111171 & 0.118842 & 0.156956 & 0.199324 & 0.23294 & 0.233945 \\
         \hline
-        n = 1024 & 1.20218 & 0.845138 & 0.892962 & 1.25336 & 1.91301 & 1.87324 & 1.85621 \\
+        n = 1024 & 1.22181 & 0.881711 & 0.934548 & 1.2512 & 1.93896 & 1.8779 & 1.85881 \\
         \hline
     \end{tabular}
     }
@@ -153,15 +154,11 @@ For matrices stored in column major format it is expected that $A^{T}B$ would be
 
 \subsection{Discussion}
 
-As seen in Table 2, the block size is independent of the size of the matrix. This is to be expected as the purpose of the Blocked Matrix-Matrix method is to take advantage of the machine's cache. By dividing the matrix of size n into N sub-matrices that fit into the fast memory this is possible. As such, the optimal block size is dependent on how large the fast memory is rather than how large the matrix is. The optimal block sized based on the timings is b = 8.
+As exhibited by the results in Table 2, the block size is independent of the size of the matrix. This consistently aligns with the principle behind the Blocked Matrix-Matrix method, which aims to take advantage of the machine's cache. By dividing the matrix of size n into N sub-matrices that fit within the fast memory, cache utilization is maximized. As such, the optimal block size depends on the size of the fast memory rather than the size of the matrix itself. Based on timing analysis, the optimal block size is determined to be \( b\) = 8. It is important to note that there are some minor fluctuations in the optimal block size between \( b\) = 8 and \( b\) = 16; however, this is likely due to inconsistencies in the timings. The optimal block size stabilizes for larger computations as the overall timings are greater, meaning that minor timing differences have less influence on the overall average.
 
 \subsection{Roofline Plot Results}
 
-For the following roofline plot, the operations are run using the NOTS Cluster Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60Hz. For this specific processor the CPU specifications are a max performance of 166.4 GFLOPS and max memory bandwidth of 59.7 GB/s. For this  model only the performance for one core will be considered, as such with 8 cores the peak performance per core is 20.8 GFLOPS. To determine the theoretical limit, the roofline is defined as min(peak performance, CI * peak bandwidth), where CI is the computational intensity. 
-
-\noindent For the naive implementation, plotting the method's performance involves determining the CI, using equation (1). Additionally, the GFLOPS/s is calculated by using the experimentally measured run times. The blocked method is evaluated similarly, however, now uses the CI defined by (2). In this equation b is the block size, used to tile the matrix. 
-
-UNITS CHECK
+For the following roofline plots, the computations were run on the NOTS Cluster Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60Hz. For this specific processor the CPU specifications are a max performance of 166.4 GFLOPS and max memory bandwidth of 59.7 GB/s. Considering only one core for this model and with the processor having 8 cores, the peak performance per core is 20.8 GFLOPS. To determine the theoretical limit, the roofline is defined as the minimum between the peak performance and the computational intensity (CI) multiplied by the peak bandwidth. Each experimental data point on the plot represents the the operational intensity in FLOPS/byte versus the performance in GFLOPS/s. For the naive implementation, the operational intensity is determined by calculating CI using equation (1). Additionally, the GFLOPS/s is based on the experimentally measured run times. The blocked method is evaluated in the same manor, but in this case, it utilizes the CI defined by (2). In this equation, \(b \) is the block size used for tiling the matrix.
 
 \begin{equation}
 CI = \frac{2 \cdot n^{3}}{(3 \cdot n^{2} + n^{3}) * 8}
@@ -171,15 +168,17 @@ CI = \frac{2 \cdot n^{3}}{(3 \cdot n^{2} + n^{3}) * 8}
 CI = \frac{2 \cdot n^{3}}{(2 \cdot n^{2} + \frac{2 \cdot n^{3}}{b}) * 8}
 \end{equation}
 
+%\clearpage
+
 \begin{figure}[!htb]
     \centering
-    \fbox{\includegraphics[width=0.8\linewidth]{roofline_v1.png}}
+    \fbox{\includegraphics[width=0.8\linewidth]{naive_and_blocked_roofline.png}}
     \caption{Roofline Plot for Naive and Blocked Matrix-Matrix Multiplication}
 \end{figure}
 
 \section{Recursive Matrix-Matrix Multiplication}
 
-In my implementation I have two versions of Recursive Matrix-Matrix multiplication. In the first version when running the "microkernel" if the matrix is smaller than the block size, not intermediate doubles are allocated. Instead, the writing to memory for C matrix is done at the inner loop every time. The second version, instead, allocated doubles and then writes to C at the end of the second inner loop. The difference in performance is not substantial but is still interesting.
+In my implementation of Recursive Matrix-Matrix multiplication, I have two versions. In the first version, if the matrix is smaller than the block size, no intermediate doubles are allocated when running the "microkernel." Instead, the writing to memory for \(C \) is done directly at the inner loop every time. In the second versions, doubles are allocated and then writing to \(C \) occurs at the completion of the inner loop. While it is not substantial, it remains interesting to observe the difference in performance. 
 
 \subsection{Timing}
 \begin{table}[ht!]
@@ -191,21 +190,20 @@ In my implementation I have two versions of Recursive Matrix-Matrix multiplicati
         \multicolumn{1}{|c|}{} & \multicolumn{7}{c|}{Block Size} \\
         \cline{2-8}
         \multicolumn{1}{|c|}{Matrix Size} & 4 & 8 & 16 & 32 & 64 & 128 & 256 \\
-
         \hline
-        n = 16 & 4.3746e-06 & 3.84855e-06 & 4.0144e-06 & & & & \\
+        n = 16 & 4.85776e-06 & 4.30824e-06 & 4.22884e-06 & & & & \\
         \hline
-        n = 32 & 3.59681e-05 & 2.93144e-05 & 2.83537e-05 & 2.9477e-05 & & & \\
+        n = 32 & 3.52447e-05 & 3.0559e-05 & 3.19342e-05 & 3.66818e-05 & & & \\
         \hline
-        n = 64 & 0.000267287 & 0.000220274 & 0.000219527 & 0.000221825 & 0.000280406 & & \\
+        n = 64 & 0.000287541 & 0.00025944 & 0.000257827 & 0.000282055 & 0.000266902 & & \\
         \hline
-        n = 128 & 0.00216819 & 0.00225175 & 0.00230736 & 0.00247268 & 0.00291227 & 0.00292425 & \\
+        n = 128 & 0.0022258 & 0.00219709 & 0.0023011 & 0.00261993 & 0.00293102 & 0.00291156 & \\
         \hline
-        n = 256 & 0.0188836 & 0.0194226 & 0.0213402 & 0.0266196 & 0.0287319 & 0.0306485 & 0.034413 \\
+        n = 256 & 0.0189461 & 0.0195265 & 0.0213893 & 0.026722 & 0.0291919 & 0.0315255 & 0.0346263 \\
         \hline
-        n = 512 & 0.172686 & 0.180409 & 0.24999 & 0.304377 & 0.328572 & 0.350685 & 0.327068 \\
+        n = 512 & 0.172671 & 0.180503 & 0.249633 & 0.299008 & 0.328264 & 0.337827 & 0.353049 \\
         \hline
-        n = 1024 & 1.35766 & 1.44219 & 2.00194 & 2.38584 & 2.58745 & 2.60176 & 2.6445 \\
+        n = 1024 & 1.32852 & 1.41536 & 1.9797 & 2.38446 & 2.58796 & 2.60521 & 2.61198 \\
         \hline
     \end{tabular}
     }
@@ -221,46 +219,48 @@ In my implementation I have two versions of Recursive Matrix-Matrix multiplicati
         \cline{2-8}
         \multicolumn{1}{|c|}{Matrix Size} & 4 & 8 & 16 & 32 & 64 & 128 & 256 \\
         \hline
-        n = 16 & 4.3127e-06 & 3.8545e-06 & 3.1154e-06 & & & & \\
+        n = 16 & 4.45684e-06 & 4.08408e-06 & 3.1788e-06 & & & & \\
         \hline
-        n = 32 & 3.30702e-05 & 2.88791e-05 & 3.02864e-05 & 2.44447e-05 & & & \\
+        n = 32 & 3.50298e-05 & 3.05299e-05 & 3.15184e-05 & 2.54159e-05 & & & \\
         \hline
-        n = 64 & 0.000264601 & 0.000217845 & 0.00021575 & 0.000218845 & 0.000211155 & & \\
+        n = 64 & 0.000278312 & 0.000262585 & 0.00025788 & 0.000290819 & 0.000209489 & & \\
         \hline
-        n = 128 & 0.00218899 & 0.00223674 & 0.00228827 & 0.00244738 & 0.00292257 & 0.00191426 & \\
+        n = 128 & 0.00221864 & 0.00219514 & 0.00229489 & 0.0026175 & 0.00293402 & 0.00192901 & \\
         \hline
-        n = 256 & 0.0196593 & 0.0194059 & 0.0213406 & 0.0274662 & 0.0288066 & 0.0306233 & 0.0279678 \\
+        n = 256 & 0.0189665 & 0.0195024 & 0.0213916 & 0.0266558 & 0.0292192 & 0.0310885 & 0.0287829 \\
         \hline
-        n = 512 & 0.172776 & 0.180293 & 0.249874 & 0.304238 & 0.328168 & 0.350561 & 0.326953 \\
+        n = 512 & 0.172988 & 0.180603 & 0.249605 & 0.298945 & 0.328335 & 0.326461 & 0.353065 \\
         \hline
-        n = 1024 & 1.35529 & 1.41505 & 1.98208 & 2.38522 & 2.58701 & 2.60168 & 2.75475 \\
+        n = 1024 & 1.32819 & 1.41644 & 1.98067 & 2.38451 & 2.58734 & 2.60538 & 2.61249 \\
         \hline
     \end{tabular}
     }
 \end{table}
 
 \subsection{Optimizing Recursive Matrix-Matrix Multiplication}
-For the Recursive Matrix-Matrix Multiplication method, the optimal block size is 8, which is the same as the Blocked Matrix-Matrix multiplication method. Given that these methods are run on the same CPU with the same fast cache this makes sense. It is important to note that the optimal block size does slightly vary between 8 and 16, but this could be an artifact of inconsistent timings.
+For the Recursive Matrix-Matrix Multiplication method, the optimal block size is 8, matching the Blocked Matrix-Matrix multiplication method. Given that these methods are executed on the same CPU with the identical fast cache configurations this makes sense. It is important to note that again the optimal block size does slightly vary between 8 and 16, but is again attributed to potential inconsistent timings. 
 
 \subsection{Implementation Check}
-In order to confirm the correctness of the Recursive Matrix-Matrix Multiplication method, matrices \( A \) and \( B \) are initialized to the identity matrix. The matrices are then multiplied together, and the resulting matrix \( C \) is expected to be equal to the identity matrix \( I \). To verify that \( C \) is indeed equal to \( I \) up to machine precision, an elementwise comparison is performed, and the absolute difference between corresponding elements of \( C \) and \( I \) is computed. These differences are accumulated, and if the sum exceeds \( 1 \times 10^{-14} \times n \), where \( n \) is the size of the matrix, it indicates that the matrices are not identical. It is important to note that the scaling is included due to numerical roundoff. If the sum is within this allowable tolerance, them method has been correctly implemented. In my implementation, this equality check is performed after each call of a matrix-matrix multiplication function.
+In order to confirm the correctness of the Recursive Matrix-Matrix Multiplication method, matrices \( A \) and \( B \) are initialized to the identity matrix. The matrices are then multiplied together, and the resulting matrix \( C \) is expected to be equal to the identity matrix \( I \). To verify that \( C \) is indeed equal to \( I \) up to machine precision, an element-wise comparison is performed, and the absolute difference between corresponding elements of \( C \) and \( I \) is computed. These differences are accumulated, and if the sum exceeds \( 1 \times 10^{-15} \times n \), where \( n \) is the size of the matrix, it indicates that the matrices are not identical. It is important to note that the scaling is included due to numerical round-off. If the sum is within this allowable tolerance, the method has been correctly implemented. In my implementation, this equality check is performed after each call of a matrix-matrix multiplication function.
 
 \subsection{Roofline Plot Results}
+
+As described previously, the roofline plot requires calculating the computational intensity (CI). For the recursive implementation this is defined be equation (3). Otherwise, the process is identical as before. 
 
 \begin{equation}
 CI = \frac{2}{3 * 8} \cdot b 
 \end{equation}
 
+\clearpage
+
 \begin{figure}[!htb]
     \centering
-    \fbox{\includegraphics[width=0.8\linewidth]{recursive_v1.png}}
+    \fbox{\includegraphics[width=0.8\linewidth]{recursive_roofline.png}}
     \caption{Roofline Plot for Recursive Matrix-Matrix Multiplication}
 \end{figure}
 
 \subsection{Discussion}
-The performance of the Recursive Matrix-Matrix multiplication method was outperformed by that of optimized Blocked Matrix-Matrix multiplication. There are a few reasons this could be the case. The most likely source of the reduced performance is the additional overhead resulting from eight function calls per recursion. This is in comparison to looping over the iterations.
-
-\noindent As expected there was not much difference between the two recursive methods. There was a slight improved speed from the intermediates version for larger matrix sizes, but that difference was even less for small matrices.
+The performance of the Recursive Matrix-Matrix multiplication method was consistently outperformed by that of the optimized Blocked Matrix-Matrix multiplication. Several factors likely contribute to this observed difference. One significant reason is the increased overhead resulting from the eight function calls per dividing the block size in half necessary for the recursive method. This is compared to the blocked method which does not require additional function calls but requires additional iterations instead. Additionally, the blocked method demonstrated the closest performance to the roofline bound among the three implementations, with the recursive method following and the naive method performing the worst. This difference can largely be attributed to the enhanced efficiency and thus reduced runtime of the blocked method. As expected, there was not much difference between the two recursive approaches. While the intermediate version showed a slight improvement with larger matrices it was relatively negligible. Lastly, despite the recursive method being slower than the blocked method, it still offers an important advantage. The trade-off for its slower speed is being cache-oblivious, compared to the blocked method which requires knowledge about the cache to implement. This freedom can be valuable in more complex situations.
 
 \end{document}
 
