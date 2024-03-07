@@ -1,185 +1,210 @@
-m = 16
-Average Elapsed Time for Naive Implementation (seconds) = 3.12374e-06
-Average Elapsed Time for Blocked Implementation (seconds) = 4.56246e-06
-Average Elapsed Time for Recursive Implementation (seconds) = 4.44602e-06
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 4.52048e-06
-m = 16
-Average Elapsed Time for Naive Implementation (seconds) = 3.1289e-06
-Average Elapsed Time for Blocked Implementation (seconds) = 3.052e-06
-Average Elapsed Time for Recursive Implementation (seconds) = 4.3465e-06
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 4.08688e-06
-m = 16
-Average Elapsed Time for Naive Implementation (seconds) = 3.23638e-06
-Average Elapsed Time for Blocked Implementation (seconds) = 3.3064e-06
-Average Elapsed Time for Recursive Implementation (seconds) = 4.6165e-06
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 3.52172e-06
-m = 32
-Average Elapsed Time for Naive Implementation (seconds) = 2.57456e-05
-Average Elapsed Time for Blocked Implementation (seconds) = 3.32006e-05
-Average Elapsed Time for Recursive Implementation (seconds) = 3.44337e-05
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 3.31766e-05
-m = 32
-Average Elapsed Time for Naive Implementation (seconds) = 2.64439e-05
-Average Elapsed Time for Blocked Implementation (seconds) = 2.55126e-05
-Average Elapsed Time for Recursive Implementation (seconds) = 3.02601e-05
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 3.02077e-05
-m = 32
-Average Elapsed Time for Naive Implementation (seconds) = 2.64998e-05
-Average Elapsed Time for Blocked Implementation (seconds) = 2.46165e-05
-Average Elapsed Time for Recursive Implementation (seconds) = 3.08931e-05
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 3.0418e-05
-m = 32
-Average Elapsed Time for Naive Implementation (seconds) = 2.56235e-05
-Average Elapsed Time for Blocked Implementation (seconds) = 2.57373e-05
-Average Elapsed Time for Recursive Implementation (seconds) = 3.27087e-05
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.54489e-05
-m = 64
-Average Elapsed Time for Naive Implementation (seconds) = 0.000209223
-Average Elapsed Time for Blocked Implementation (seconds) = 0.000252437
-Average Elapsed Time for Recursive Implementation (seconds) = 0.000266582
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000258764
-m = 64
-Average Elapsed Time for Naive Implementation (seconds) = 0.000209528
-Average Elapsed Time for Blocked Implementation (seconds) = 0.000198479
-Average Elapsed Time for Recursive Implementation (seconds) = 0.000219855
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000217738
-m = 64
-Average Elapsed Time for Naive Implementation (seconds) = 0.000214858
-Average Elapsed Time for Blocked Implementation (seconds) = 0.000194473
-Average Elapsed Time for Recursive Implementation (seconds) = 0.000217467
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000215637
-m = 64
-Average Elapsed Time for Naive Implementation (seconds) = 0.000208547
-Average Elapsed Time for Blocked Implementation (seconds) = 0.000193512
-Average Elapsed Time for Recursive Implementation (seconds) = 0.000255317
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000251909
-m = 64
-Average Elapsed Time for Naive Implementation (seconds) = 0.000201851
-Average Elapsed Time for Blocked Implementation (seconds) = 0.000197515
-Average Elapsed Time for Recursive Implementation (seconds) = 0.000256621
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000196944
-m = 128
-Average Elapsed Time for Naive Implementation (seconds) = 0.00194909
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0019329
-Average Elapsed Time for Recursive Implementation (seconds) = 0.00216804
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00216294
-m = 128
-Average Elapsed Time for Naive Implementation (seconds) = 0.00196394
-Average Elapsed Time for Blocked Implementation (seconds) = 0.00141832
-Average Elapsed Time for Recursive Implementation (seconds) = 0.00220841
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00219146
-m = 128
-Average Elapsed Time for Naive Implementation (seconds) = 0.00212843
-Average Elapsed Time for Blocked Implementation (seconds) = 0.00133139
-Average Elapsed Time for Recursive Implementation (seconds) = 0.00230547
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00230001
-m = 128
-Average Elapsed Time for Naive Implementation (seconds) = 0.00185623
-Average Elapsed Time for Blocked Implementation (seconds) = 0.00145721
-Average Elapsed Time for Recursive Implementation (seconds) = 0.00258723
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00258073
-m = 128
-Average Elapsed Time for Naive Implementation (seconds) = 0.00192324
-Average Elapsed Time for Blocked Implementation (seconds) = 0.00208652
-Average Elapsed Time for Recursive Implementation (seconds) = 0.00290935
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00289987
-m = 128
-Average Elapsed Time for Naive Implementation (seconds) = 0.00206259
-Average Elapsed Time for Blocked Implementation (seconds) = 0.002048
-Average Elapsed Time for Recursive Implementation (seconds) = 0.00305273
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00203239
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.0296284
-Average Elapsed Time for Blocked Implementation (seconds) = 0.018747
-Average Elapsed Time for Recursive Implementation (seconds) = 0.0190213
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0189788
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.0296972
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0118778
-Average Elapsed Time for Recursive Implementation (seconds) = 0.0194857
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0194577
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.0291146
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0111469
-Average Elapsed Time for Recursive Implementation (seconds) = 0.0215637
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0213971
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.0287316
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0153017
-Average Elapsed Time for Recursive Implementation (seconds) = 0.0272576
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.027243
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.02951
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0160313
-Average Elapsed Time for Recursive Implementation (seconds) = 0.0288666
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0288634
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.0295692
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0208891
-Average Elapsed Time for Recursive Implementation (seconds) = 0.031038
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.031032
-m = 256
-Average Elapsed Time for Naive Implementation (seconds) = 0.0285501
-Average Elapsed Time for Blocked Implementation (seconds) = 0.0284472
-Average Elapsed Time for Recursive Implementation (seconds) = 0.0348339
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0284331
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.240124
-Average Elapsed Time for Blocked Implementation (seconds) = 0.155486
-Average Elapsed Time for Recursive Implementation (seconds) = 0.172859
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.172921
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.239869
-Average Elapsed Time for Blocked Implementation (seconds) = 0.104034
-Average Elapsed Time for Recursive Implementation (seconds) = 0.179977
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.180003
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.239964
-Average Elapsed Time for Blocked Implementation (seconds) = 0.112885
-Average Elapsed Time for Recursive Implementation (seconds) = 0.250246
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.250464
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.240164
-Average Elapsed Time for Blocked Implementation (seconds) = 0.156879
-Average Elapsed Time for Recursive Implementation (seconds) = 0.302981
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.302965
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.239981
-Average Elapsed Time for Blocked Implementation (seconds) = 0.172369
-Average Elapsed Time for Recursive Implementation (seconds) = 0.326889
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.326554
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.239995
-Average Elapsed Time for Blocked Implementation (seconds) = 0.242939
-Average Elapsed Time for Recursive Implementation (seconds) = 0.354897
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.354851
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.240251
-Average Elapsed Time for Blocked Implementation (seconds) = 0.240316
-Average Elapsed Time for Recursive Implementation (seconds) = 0.334228
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.330672
-m = 512
-Average Elapsed Time for Naive Implementation (seconds) = 0.240166
-Average Elapsed Time for Blocked Implementation (seconds) = 0.239929
-Average Elapsed Time for Recursive Implementation (seconds) = 0.359287
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.239532
-m = 1024
-Average Elapsed Time for Naive Implementation (seconds) = 1.90427
-Average Elapsed Time for Blocked Implementation (seconds) = 1.21189
-Average Elapsed Time for Recursive Implementation (seconds) = 1.35188
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.35111
-m = 1024
-Average Elapsed Time for Naive Implementation (seconds) = 1.90156
-Average Elapsed Time for Blocked Implementation (seconds) = 0.822512
-Average Elapsed Time for Recursive Implementation (seconds) = 1.42303
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.42287
-m = 1024
-Average Elapsed Time for Naive Implementation (seconds) = 1.90098
-Average Elapsed Time for Blocked Implementation (seconds) = 0.894003
-Average Elapsed Time for Recursive Implementation (seconds) = 1.98941
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.98724
-m = 1024
-Average Elapsed Time for Naive Implementation (seconds) = 1.90444
-Average Elapsed Time for Blocked Implementation (seconds) = 1.25884
-Average Elapsed Time for Recursive Implementation (seconds) = 2.42228
-Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.42258
+Matrix Size = 16, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 3.1173e-06
+Average Elapsed Time for Blocked Implementation (seconds) = 4.0607e-06
+Average Elapsed Time for Recursive Implementation (seconds) = 4.3087e-06
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 4.2399e-06
+Matrix Size = 16, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 4.2986e-06
+Average Elapsed Time for Blocked Implementation (seconds) = 3.3002e-06
+Average Elapsed Time for Recursive Implementation (seconds) = 3.6749e-06
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 3.6615e-06
+Matrix Size = 16, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 3.1137e-06
+Average Elapsed Time for Blocked Implementation (seconds) = 4.3012e-06
+Average Elapsed Time for Recursive Implementation (seconds) = 3.8e-06
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.9721e-06
+Matrix Size = 32, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 2.35663e-05
+Average Elapsed Time for Blocked Implementation (seconds) = 3.01754e-05
+Average Elapsed Time for Recursive Implementation (seconds) = 3.28575e-05
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 3.19356e-05
+Matrix Size = 32, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 2.42879e-05
+Average Elapsed Time for Blocked Implementation (seconds) = 2.33977e-05
+Average Elapsed Time for Recursive Implementation (seconds) = 2.88911e-05
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.80476e-05
+Matrix Size = 32, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 2.49524e-05
+Average Elapsed Time for Blocked Implementation (seconds) = 2.27657e-05
+Average Elapsed Time for Recursive Implementation (seconds) = 2.84115e-05
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.84084e-05
+Matrix Size = 32, Block Size = 32
+Average Elapsed Time for Naive Implementation (seconds) = 2.42784e-05
+Average Elapsed Time for Blocked Implementation (seconds) = 2.6739e-05
+Average Elapsed Time for Recursive Implementation (seconds) = 3.21945e-05
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.42059e-05
+Matrix Size = 64, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 0.000213007
+Average Elapsed Time for Blocked Implementation (seconds) = 0.000266322
+Average Elapsed Time for Recursive Implementation (seconds) = 0.00027634
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000274102
+Matrix Size = 64, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 0.000193652
+Average Elapsed Time for Blocked Implementation (seconds) = 0.000189847
+Average Elapsed Time for Recursive Implementation (seconds) = 0.000211879
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000212165
+Matrix Size = 64, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 0.00019283
+Average Elapsed Time for Blocked Implementation (seconds) = 0.000174023
+Average Elapsed Time for Recursive Implementation (seconds) = 0.000210252
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000209847
+Matrix Size = 64, Block Size = 32
+Average Elapsed Time for Naive Implementation (seconds) = 0.000204896
+Average Elapsed Time for Blocked Implementation (seconds) = 0.000187413
+Average Elapsed Time for Recursive Implementation (seconds) = 0.000239822
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.000240399
+Matrix Size = 64, Block Size = 64
+Average Elapsed Time for Naive Implementation (seconds) = 0.00019912
+Average Elapsed Time for Blocked Implementation (seconds) = 0.000197432
+Average Elapsed Time for Recursive Implementation (seconds) = 0.000252268
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0001934
+Matrix Size = 128, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 0.00204543
+Average Elapsed Time for Blocked Implementation (seconds) = 0.00203021
+Average Elapsed Time for Recursive Implementation (seconds) = 0.00223725
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00224013
+Matrix Size = 128, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 0.00200284
+Average Elapsed Time for Blocked Implementation (seconds) = 0.00138808
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0022634
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00225604
+Matrix Size = 128, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 0.00203357
+Average Elapsed Time for Blocked Implementation (seconds) = 0.00139015
+Average Elapsed Time for Recursive Implementation (seconds) = 0.00241192
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00231988
+Matrix Size = 128, Block Size = 32
+Average Elapsed Time for Naive Implementation (seconds) = 0.00193276
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0014408
+Average Elapsed Time for Recursive Implementation (seconds) = 0.00257089
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00256718
+Matrix Size = 128, Block Size = 64
+Average Elapsed Time for Naive Implementation (seconds) = 0.00203554
+Average Elapsed Time for Blocked Implementation (seconds) = 0.00213211
+Average Elapsed Time for Recursive Implementation (seconds) = 0.00292682
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00291465
+Matrix Size = 128, Block Size = 128
+Average Elapsed Time for Naive Implementation (seconds) = 0.0019939
+Average Elapsed Time for Blocked Implementation (seconds) = 0.00197326
+Average Elapsed Time for Recursive Implementation (seconds) = 0.00289819
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.00195228
+Matrix Size = 256, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 0.0290195
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0185908
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0190135
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0190103
+Matrix Size = 256, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 0.0289728
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0117772
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0193914
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0194186
+Matrix Size = 256, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 0.0287646
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0110755
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0213639
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.021298
+Matrix Size = 256, Block Size = 32
+Average Elapsed Time for Naive Implementation (seconds) = 0.0287263
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0151775
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0271314
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0270727
+Matrix Size = 256, Block Size = 64
+Average Elapsed Time for Naive Implementation (seconds) = 0.0286497
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0160616
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0287687
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0287581
+Matrix Size = 256, Block Size = 128
+Average Elapsed Time for Naive Implementation (seconds) = 0.0292359
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0186581
+Average Elapsed Time for Recursive Implementation (seconds) = 0.030251
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0303508
+Matrix Size = 256, Block Size = 256
+Average Elapsed Time for Naive Implementation (seconds) = 0.0288509
+Average Elapsed Time for Blocked Implementation (seconds) = 0.0286377
+Average Elapsed Time for Recursive Implementation (seconds) = 0.0344514
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.0287075
+Matrix Size = 512, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 0.235052
+Average Elapsed Time for Blocked Implementation (seconds) = 0.153727
+Average Elapsed Time for Recursive Implementation (seconds) = 0.172624
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.172791
+Matrix Size = 512, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 0.233337
+Average Elapsed Time for Blocked Implementation (seconds) = 0.102888
+Average Elapsed Time for Recursive Implementation (seconds) = 0.180245
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.180181
+Matrix Size = 512, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 0.233384
+Average Elapsed Time for Blocked Implementation (seconds) = 0.112159
+Average Elapsed Time for Recursive Implementation (seconds) = 0.249011
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.249051
+Matrix Size = 512, Block Size = 32
+Average Elapsed Time for Naive Implementation (seconds) = 0.23447
+Average Elapsed Time for Blocked Implementation (seconds) = 0.157283
+Average Elapsed Time for Recursive Implementation (seconds) = 0.303563
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.301946
+Matrix Size = 512, Block Size = 64
+Average Elapsed Time for Naive Implementation (seconds) = 0.233846
+Average Elapsed Time for Blocked Implementation (seconds) = 0.173943
+Average Elapsed Time for Recursive Implementation (seconds) = 0.327252
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.32245
+Matrix Size = 512, Block Size = 128
+Average Elapsed Time for Naive Implementation (seconds) = 0.233284
+Average Elapsed Time for Blocked Implementation (seconds) = 0.230659
+Average Elapsed Time for Recursive Implementation (seconds) = 0.350979
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.350814
+Matrix Size = 512, Block Size = 256
+Average Elapsed Time for Naive Implementation (seconds) = 0.233351
+Average Elapsed Time for Blocked Implementation (seconds) = 0.233543
+Average Elapsed Time for Recursive Implementation (seconds) = 0.353296
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.352525
+Matrix Size = 512, Block Size = 512
+Average Elapsed Time for Naive Implementation (seconds) = 0.233602
+Average Elapsed Time for Blocked Implementation (seconds) = 0.233335
+Average Elapsed Time for Recursive Implementation (seconds) = 0.355336
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 0.233148
+Matrix Size = 1024, Block Size = 4
+Average Elapsed Time for Naive Implementation (seconds) = 1.85126
+Average Elapsed Time for Blocked Implementation (seconds) = 1.20107
+Average Elapsed Time for Recursive Implementation (seconds) = 1.34095
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.3415
+Matrix Size = 1024, Block Size = 8
+Average Elapsed Time for Naive Implementation (seconds) = 1.85172
+Average Elapsed Time for Blocked Implementation (seconds) = 0.818515
+Average Elapsed Time for Recursive Implementation (seconds) = 1.41555
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.4142
+Matrix Size = 1024, Block Size = 16
+Average Elapsed Time for Naive Implementation (seconds) = 1.85085
+Average Elapsed Time for Blocked Implementation (seconds) = 0.895582
+Average Elapsed Time for Recursive Implementation (seconds) = 1.98377
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.98314
+Matrix Size = 1024, Block Size = 32
+Average Elapsed Time for Naive Implementation (seconds) = 1.85075
+Average Elapsed Time for Blocked Implementation (seconds) = 1.25463
+Average Elapsed Time for Recursive Implementation (seconds) = 2.40966
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.40895
+Matrix Size = 1024, Block Size = 64
+Average Elapsed Time for Naive Implementation (seconds) = 1.85108
+Average Elapsed Time for Blocked Implementation (seconds) = 1.79804
+Average Elapsed Time for Recursive Implementation (seconds) = 2.63029
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.62907
+Matrix Size = 1024, Block Size = 128
+Average Elapsed Time for Naive Implementation (seconds) = 1.85127
+Average Elapsed Time for Blocked Implementation (seconds) = 1.86181
+Average Elapsed Time for Recursive Implementation (seconds) = 2.60227
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.60214
+Matrix Size = 1024, Block Size = 256
+Average Elapsed Time for Naive Implementation (seconds) = 1.85152
+Average Elapsed Time for Blocked Implementation (seconds) = 1.84633
+Average Elapsed Time for Recursive Implementation (seconds) = 2.66447
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.6347
+Matrix Size = 1024, Block Size = 512
+Average Elapsed Time for Naive Implementation (seconds) = 1.85201
+Average Elapsed Time for Blocked Implementation (seconds) = 1.84247
+Average Elapsed Time for Recursive Implementation (seconds) = 2.672
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 2.67223
+Matrix Size = 1024, Block Size = 1024
+Average Elapsed Time for Naive Implementation (seconds) = 1.85134
+Average Elapsed Time for Blocked Implementation (seconds) = 1.84467
+Average Elapsed Time for Recursive Implementation (seconds) = 2.62142
+Average Elapsed Time for Recursive Implementation with Intermediates (seconds) = 1.84187

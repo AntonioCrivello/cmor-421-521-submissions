@@ -132,6 +132,7 @@ void matmul_recursive_intermediates(double *A, double *B, double *C, int rowA, i
 }
 
 void correctness_check(double *C, const int n) {
+    //Define I as the identity matrix
     double *I = new double [n * n];
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -144,6 +145,7 @@ void correctness_check(double *C, const int n) {
     }
     //Tolerance for machine precision
     float tol = 1e-15 * n;
+    //Initial sum
     double sum = 0.0;
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) { 
@@ -151,12 +153,9 @@ void correctness_check(double *C, const int n) {
         }
     }
 
-    cout << sum << endl;
-
+    //Check correctness of implementation
     if (sum > tol) {
         cout << "Matrix C does not equal I to machine precision" << endl;
-    } else {
-        cout << "Matrix C equals I to machine precision" << endl;
     }
 
     //Free allocated memory for identity matrix
@@ -210,7 +209,7 @@ int main(int argc, char *argv[])
     }
 
     // Number of trials to get consistent timings
-    int numTrials = 30;
+    int numTrials = 10;
 
     // Timing for Naive Matrix-Matrix Multiplication
     high_resolution_clock::time_point startNaive = high_resolution_clock::now();
