@@ -15,6 +15,9 @@ echo "Matrix Size, Block Size, Naive Timing, Blocked Timing, Recursive Timing, R
 
 for ((i = 4; i <= 10; i++)); do
     for ((k = 2; k <= i; k++)); do
+        if [ "$k" -gt 8 ]; then
+            break
+        fi
         matrix_size=$((2 ** i))
         block_size=$((2 ** k))
         output=$(./matmul_recursive $matrix_size $block_size)

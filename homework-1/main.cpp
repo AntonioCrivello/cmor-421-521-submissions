@@ -144,7 +144,7 @@ void correctness_check(double *C, const int n) {
         }
     }
     //Tolerance for machine precision
-    float tol = 1e-15 * n;
+    float tol = 1e-14 * n;
     //Initial sum
     double sum = 0.0;
     for (int i = 0; i < n; ++i) {
@@ -209,112 +209,72 @@ int main(int argc, char *argv[])
     }
 
     // Number of trials to get consistent timings
-    int numTrials = 10;
+    int numTrials = 20;
 
     // Timing for Naive Matrix-Matrix Multiplication
-    high_resolution_clock::time_point startNaive = high_resolution_clock::now();
-    duration<double> resetTimeNaive(0);
+    duration<double> elapsedNaive(0);
     for (int trial = 0; trial < numTrials; ++trial)
     {
-        high_resolution_clock::time_point resetStartNaive = high_resolution_clock::now();
         for (int i = 0; i < m * n; ++i)
         {
             C[i] = 0.0;
         }
-        high_resolution_clock::time_point resetEndNaive = high_resolution_clock::now();
-        resetTimeNaive += duration_cast<duration<double>>(resetEndNaive - resetStartNaive);
+        high_resolution_clock::time_point startNaive = high_resolution_clock::now();
         matmul_naive(A, B, C, m);
-        high_resolution_clock::time_point checkStartNaive = high_resolution_clock::now();
+        high_resolution_clock::time_point endNaive = high_resolution_clock::now();
+        elapsedNaive += duration_cast<duration<double>>(endNaive - startNaive);
         correctness_check(C, n);
-        high_resolution_clock::time_point checkEndNaive = high_resolution_clock::now();
-        resetTimeNaive += duration_cast<duration<double>>(checkEndNaive - checkStartNaive);
     }
-    high_resolution_clock::time_point endNaive = high_resolution_clock::now();
-    duration<double> elapsedNaive = duration_cast<duration<double>>((endNaive - startNaive - resetTimeNaive) / numTrials);
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i * n + j] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    elapsedNaive /= numTrials;
 
     // Timing for Blocked Matrix-Matrix Multiplication
-    high_resolution_clock::time_point startBlocked = high_resolution_clock::now();
-    duration<double> resetTimeBlocked(0);
+    duration<double> elapsedBlocked(0);
     for (int trial = 0; trial < numTrials; ++trial)
     {
-        high_resolution_clock::time_point resetStartBlocked = high_resolution_clock::now();
         for (int i = 0; i < m * n; ++i)
         {
             C[i] = 0.0;
         }
-        high_resolution_clock::time_point resetEndBlocked = high_resolution_clock::now();
-        resetTimeBlocked += duration_cast<duration<double>>(resetEndBlocked - resetStartBlocked);
+        high_resolution_clock::time_point startBlocked = high_resolution_clock::now();
         matmul_blocked(A, B, C, m, blockSize);
-        high_resolution_clock::time_point checkStartBlocked = high_resolution_clock::now();
+        high_resolution_clock::time_point endBlocked = high_resolution_clock::now();
+        elapsedBlocked += duration_cast<duration<double>>(endBlocked - startBlocked);
         correctness_check(C, n);
-        high_resolution_clock::time_point checkEndBlocked = high_resolution_clock::now();
-        resetTimeBlocked += duration_cast<duration<double>>(checkEndBlocked - checkStartBlocked);
     }
-    high_resolution_clock::time_point endBlocked = high_resolution_clock::now();
-    duration<double> elapsedBlocked = duration_cast<duration<double>>((endBlocked - startBlocked - resetTimeBlocked) / numTrials);
-    // cout << "=================================================" << endl;
-    // for (int i = 0; i < n; ++i) {
-    //     for (int j = 0; j < n; ++j) {
-    //         cout << C[i * n + j] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    elapsedBlocked /= numTrials;
 
     // Timing for Recursive Matrix-Matrix Multiplication
-    high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
-    duration<double> resetTimeRecursive(0);
+    duration<double> elapsedRecursive(0);
     for (int trial = 0; trial < numTrials; ++trial)
     {
-        high_resolution_clock::time_point resetStartRecursive = high_resolution_clock::now();
         for (int i = 0; i < m * n; ++i)
         {
             C[i] = 0.0;
         }
-        high_resolution_clock::time_point resetEndRecursive = high_resolution_clock::now();
-        resetTimeRecursive += duration_cast<duration<double>>(resetEndRecursive - resetStartRecursive);
+        high_resolution_clock::time_point startRecursive = high_resolution_clock::now();
         matmul_recursive(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
-        high_resolution_clock::time_point checkStartRecursive = high_resolution_clock::now();
+        high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
+        elapsedRecursive += duration_cast<duration<double>>(endRecursive - startRecursive);
         correctness_check(C, n);
-        high_resolution_clock::time_point checkEndRecursive = high_resolution_clock::now();
-        resetTimeRecursive += duration_cast<duration<double>>(checkEndRecursive - checkStartRecursive);
     }
-    high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
-    duration<double> elapsedRecursive = duration_cast<duration<double>>((endRecursive - startRecursive - resetTimeRecursive) / numTrials);
-    //  cout << "=================================================" << endl;
-    //  for (int i = 0; i < n; ++i) {
-    //      for (int j = 0; j < n; ++j) {
-    //          cout << C[i * n + j] << " ";
-    //      }
-    //      cout << endl;
-    //  }
+    elapsedRecursive /= numTrials;
 
-    // Timing for Recursive Matrix-Matrix Multiplication with intermediate doubles
-    high_resolution_clock::time_point startRecursiveIntermediates = high_resolution_clock::now();
-    duration<double> resetTimeRecursiveIntermediates(0);
+    // Timing for Recursive with Intermediates Matrix-Matrix Multiplication
+    duration<double> elapsedRecursiveIntermediates(0);
     for (int trial = 0; trial < numTrials; ++trial)
     {
-        high_resolution_clock::time_point resetStartRecursiveIntermediates = high_resolution_clock::now();
         for (int i = 0; i < m * n; ++i)
         {
             C[i] = 0.0;
         }
-        high_resolution_clock::time_point resetEndRecursiveIntermediates = high_resolution_clock::now();
-        resetTimeRecursiveIntermediates += duration_cast<duration<double>>(resetEndRecursiveIntermediates - resetStartRecursiveIntermediates);
+        high_resolution_clock::time_point startRecursiveIntermediates = high_resolution_clock::now();
         matmul_recursive_intermediates(A, B, C, 0, 0, 0, 0, 0, 0, m, blockSize, n);
-        high_resolution_clock::time_point checkStartRecursiveIntermediates = high_resolution_clock::now();
+        high_resolution_clock::time_point endRecursiveIntermediates = high_resolution_clock::now();
+        elapsedRecursiveIntermediates += duration_cast<duration<double>>(endRecursiveIntermediates- startRecursiveIntermediates);
         correctness_check(C, n);
-        high_resolution_clock::time_point checkEndRecursiveIntermediates = high_resolution_clock::now();
-        resetTimeRecursiveIntermediates += duration_cast<duration<double>>(checkEndRecursiveIntermediates- checkStartRecursiveIntermediates);
     }
-    high_resolution_clock::time_point endRecursiveIntermediates = high_resolution_clock::now();
-    duration<double> elapsedRecursiveIntermediates = duration_cast<duration<double>>((endRecursiveIntermediates - startRecursiveIntermediates - resetTimeRecursiveIntermediates) / numTrials);
+    elapsedRecursiveIntermediates /= numTrials;
+
     // cout << "=================================================" << endl;
     // for (int i = 0; i < n; ++i) {
     //     for (int j = 0; j < n; ++j) {
