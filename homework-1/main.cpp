@@ -199,13 +199,13 @@ int main(int argc, char *argv[])
     high_resolution_clock::time_point endNaive = high_resolution_clock::now();
     duration<double> elapsedNaive = duration_cast<duration<double>>((endNaive - startNaive - resetTimeNaive) / numTrials);
     //duration<double> elapsedNaive = (endNaive - startNaive) / numTrials;
-    cout << "=================================================" << endl;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << C[i + j * n] << " ";
-        }
-        cout << endl;
-    }
+    // cout << "=================================================" << endl;
+    // for (int i = 0; i < n; ++i) {
+    //     for (int j = 0; j < n; ++j) {
+    //         cout << C[i + j * n] << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     // Timing for Blocked Matrix-Matrix Multiplication
     high_resolution_clock::time_point startBlocked = high_resolution_clock::now();
@@ -224,13 +224,13 @@ int main(int argc, char *argv[])
     high_resolution_clock::time_point endBlocked = high_resolution_clock::now();
     duration<double> elapsedBlocked = duration_cast<duration<double>>((endBlocked - startBlocked - resetTimeBlocked) / numTrials);
     // duration<double> elapsedBlocked = (endBlocked - startBlocked) / numTrials;
-    cout << "=================================================" << endl;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << C[i + j * n] << " ";
-        }
-        cout << endl;
-    }
+    // cout << "=================================================" << endl;
+    // for (int i = 0; i < n; ++i) {
+    //     for (int j = 0; j < n; ++j) {
+    //         cout << C[i + j * n] << " ";
+    //     }
+    //     cout << endl;
+    // }
 
 
     // Timing for Recursive Matrix-Matrix Multiplication
@@ -250,13 +250,13 @@ int main(int argc, char *argv[])
     high_resolution_clock::time_point endRecursive = high_resolution_clock::now();
     duration<double> elapsedRecursive = duration_cast<duration<double>>((endRecursive - startRecursive - resetTimeRecursive) / numTrials);
     //duration<double> elapsedRecursive = (endRecursive - startRecursive) / numTrials;
-    cout << "=================================================" << endl;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << C[i + j * n] << " ";
-        }
-        cout << endl;
-    }
+    // cout << "=================================================" << endl;
+    // for (int i = 0; i < n; ++i) {
+    //     for (int j = 0; j < n; ++j) {
+    //         cout << C[i + j * n] << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     // Timing for Recursive Matrix-Matrix Multiplication with intermediate doubles
     high_resolution_clock::time_point startRecursiveIntermediates = high_resolution_clock::now();
@@ -275,13 +275,13 @@ int main(int argc, char *argv[])
     high_resolution_clock::time_point endRecursiveIntermediates = high_resolution_clock::now();
     duration<double> elapsedRecursiveIntermediates = duration_cast<duration<double>>((endRecursiveIntermediates - startRecursiveIntermediates - resetTimeRecursiveIntermediates) / numTrials);
     //duration<double> elapsedRecursive = (endRecursive - startRecursive) / numTrials;
-    cout << "=================================================" << endl;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << C[i + j * n] << " ";
-        }
-        cout << endl;
-    }
+    // cout << "=================================================" << endl;
+    // for (int i = 0; i < n; ++i) {
+    //     for (int j = 0; j < n; ++j) {
+    //         cout << C[i + j * n] << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     cout << "Average Elapsed Time for Naive Implementation (seconds) = " << elapsedNaive.count() << endl;
     cout << "Average Elapsed Time for Blocked Implementation (seconds) = " << elapsedBlocked.count() << endl;
