@@ -3,6 +3,7 @@
 
 using namespace std;
 
+#define BLOCK_SIZE 8
 #define NUM_THREADS 16
 void matmulBlocked(double *A, double *B, double *C, const int n, int blockSize)
 {
@@ -33,6 +34,7 @@ void matmulBlocked(double *A, double *B, double *C, const int n, int blockSize)
 void matmulParallel(double *A, double *B, double *C, const int n, int blockSize, int numThreads)
 {
     omp_set_num_threads(numThreads);
+    #pragma omp parallel for 
     for (int i = 0; i < n; i += blockSize)
     {
         // cout << omp_get_num_threads() << endl;
@@ -40,16 +42,15 @@ void matmulParallel(double *A, double *B, double *C, const int n, int blockSize,
         {
             for (int k = 0; k < n; k += blockSize)
             {
-                #pragma omp parallel for shared(i, j, k)
-                for (int ii = 0; ii < blockSize; ii++)
+                for (int ii = i; ii < i + blockSize; ii++)
                 {
-                    for (int jj = 0; jj < blockSize; jj++)
+                    for (int jj = j; jj < j + blockSize; jj++)
                     {
                         for (int kk = k; kk < k + blockSize; kk++)
                         {
                             // cout << omp_get_num_threads() << endl;
                             // #pragma omp critical
-                            C[(i + ii) * n + (j + jj)] += A[(i + ii) * n + kk] * B[kk * n + (j + jj)];
+                            C[(ii) * n + (jj)] += A[(ii) * n + kk] * B[kk * n + (jj)];
                         }
                     }
                 }
@@ -61,21 +62,21 @@ void matmulParallel(double *A, double *B, double *C, const int n, int blockSize,
 void matmulParallelCollapse(double *A, double *B, double *C, const int n, int blockSize, int numThreads)
 {
     omp_set_num_threads(numThreads);
+    #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; i += blockSize)
     {
         for (int j = 0; j < n; j += blockSize)
         {
             for (int k = 0; k < n; k += blockSize)
             {
-                #pragma omp parallel for collapse(2) shared(i, j, k)
-                for (int ii = 0; ii < blockSize; ii++)
+                for (int ii = i; ii < i + blockSize; ii++)
                 {
-                    for (int jj = 0; jj < blockSize; jj++)
+                    for (int jj = j; jj < j + blockSize; jj++)
                     {
                         for (int kk = k; kk < k + blockSize; kk++)
                         {
-                            #pragma omp critical
-                            C[(i + ii) * n + (j + jj)] += A[(i + ii) * n + kk] * B[kk * n + (j + jj)];
+                            // #pragma omp critical
+                            C[(ii) * n + (jj)] += A[(ii) * n + kk] * B[kk * n + (jj)];
                         }
                     }
                 }
@@ -282,29 +283,40 @@ int main(int argc, char *argv[])
     //     C[i] = 0.0;
     // }
 
-    // double elapsedTimeParallel = omp_get_wtime();
-    // // parallel_test(C, n);
-    // matmulParallel(A, B, C, n, blockSize, numThreads);
-    // elapsedTimeParallel = omp_get_wtime() - elapsedTimeParallel;
+    double elapsedTimeParallel = omp_get_wtime();
+    // parallel_test(C, n);
+    matmulParallel(A, B, C, n, blockSize, numThreads);
+    elapsedTimeParallel = omp_get_wtime() - elapsedTimeParallel;
 
-    // for (int i = 0; i < m * n; ++i)
+    // for (int i = 0; i < n; ++i)
     // {
-    //     C[i] = 0.0;
+    //     for (int j = 0; j < n; ++j)
+    //     {
+    //         cout << C[i * n + j] << " ";
+    //     }
+    //     cout << endl;
     // }
 
-    // double elapsedTimeParallelCollapse = omp_get_wtime();
-    // // parallel_test(C, n);
-    // matmulParallelCollapse(A, B, C, n, blockSize, numThreads);
-    // elapsedTimeParallelCollapse = omp_get_wtime() - elapsedTimeParallelCollapse;
+    for (int i = 0; i < m * n; ++i)
+    {
+        C[i] = 0.0;
+    }
 
-    // // for (int i = 0; i < n; ++i)
-    // // {
-    // //     for (int j = 0; j < n; ++j)
-    // //     {
-    // //         cout << C[i * n + j] << " ";
-    // //     }
-    // //     cout << endl;
-    // // }
+
+
+    double elapsedTimeParallelCollapse = omp_get_wtime();
+    // parallel_test(C, n);
+    matmulParallelCollapse(A, B, C, n, blockSize, numThreads);
+    elapsedTimeParallelCollapse = omp_get_wtime() - elapsedTimeParallelCollapse;
+
+    // for (int i = 0; i < n; ++i)
+    // {
+    //     for (int j = 0; j < n; ++j)
+    //     {
+    //         cout << C[i * n + j] << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     double elapsedBackSolve = omp_get_wtime();
 
@@ -314,7 +326,7 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < n; ++i)
     {
-        // cout << x[i] << endl;
+        //cout << x[i] << endl;
         x[i] = 0.0;
     }
 
@@ -326,7 +338,7 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < n; ++i)
     {
-        // cout << x[i] << endl;
+        //cout << x[i] << endl;
         x[i] = 0.0;
     }
 
@@ -351,13 +363,13 @@ int main(int argc, char *argv[])
 //     }
 
 //     // cout << elapsedTimeBlocked << endl;
-//     // cout << elapsedTimeParallel << endl;
-//     // cout << elapsedTimeParallelCollapse << endl;
+    cout << "Parallel:" << elapsedTimeParallel << endl;
+    cout << "Parallel for collapse:" << elapsedTimeParallelCollapse << endl;
 
 //     cout << elapsedTimeParallelCollapse << endl;
 
-    cout << elapsedBackSolve << endl;
-    cout << elapsedBackSolveTest << endl;
+    cout << "Serial:" << elapsedBackSolve << endl;
+    cout << "Dynamic:" << elapsedBackSolveTest << endl;
 //     cout << elapsedParallelBackSolveStatic << endl;
 //     cout << elapsedParallelBackSolveDynamic << endl;
 
