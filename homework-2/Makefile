@@ -1,5 +1,6 @@
 #Define compile
-CC = g++-13
+# CC = g++-13
+CC = g++
 
 #Directories (For this homework does not requires, include, src, or obj)
 
