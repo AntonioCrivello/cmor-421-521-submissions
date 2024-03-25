@@ -20,7 +20,7 @@ echo "Matrix Size,Block Size,Number of Threads,Elapsed Back Solve,Elapsed Parall
 echo "Timings for various matrix sizes and number of threads" > $output_txt
 
 # Loop over matrix sizes
-for matrix_size in 8 16 32 64 128 256 512 1024 2048 4096 8192 16384; do
+for matrix_size in 16 32 64 128 256 512 1024 2048 4096 8192 16384; do
     # Loop over number of threads
     for num_threads in 1 2 4 8 16 32 64; do
         # Run the executable and capture the output
