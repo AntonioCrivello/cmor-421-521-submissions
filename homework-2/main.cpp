@@ -11,6 +11,7 @@ void matmulParallel(double *A, double *B, double *C, const int n, int numThreads
     // Block Matrix-Matrix Multiplication using #omp parallel for
     // Define number of threads used in implementation
     omp_set_num_threads(numThreads);
+
     #pragma omp parallel for
     for (int i = 0; i < n; i += BLOCK_SIZE)
     {
@@ -25,15 +26,15 @@ void matmulParallel(double *A, double *B, double *C, const int n, int numThreads
                         for (int kk = k; kk < k + BLOCK_SIZE; kk++)
                         {
                             C[ii * n + jj] += A[ii * n + kk] * B[kk * n + jj];
+                            #pragma omp critical
+                            {
+                                cout << omp_get_num_threads() << endl;
+                            }
                         }
                     }
                 }
             }
         }
-        // #pragma omp single
-        // {
-        //     printf("Number of threads: %d\n", omp_get_num_threads());
-        // }
     }
 }
 
@@ -42,6 +43,7 @@ void matmulParallelCollapsed(double *A, double *B, double *C, const int n, int n
     // Block Matrix-Matrix Multiplication using #omp parallel for collapse(2)
     // Define number of threads used in implementation
     omp_set_num_threads(numThreads);
+
     #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; i += BLOCK_SIZE)
     {
@@ -56,105 +58,17 @@ void matmulParallelCollapsed(double *A, double *B, double *C, const int n, int n
                         for (int kk = k; kk < k + BLOCK_SIZE; kk++)
                         {
                             C[ii * n + jj] += A[ii * n + kk] * B[kk * n + jj];
+                            #pragma omp critical
+                            {
+                                cout << omp_get_num_threads() << endl;
+                            }
                         }
                     }
                 }
             }
         }
-        // #pragma omp single
-        // {
-        //     printf("Number of threads: %d\n", omp_get_num_threads());
-        // }
     }
 }
-
-
-
-// void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
-// {
-//     omp_set_num_threads(numThreads);
-//     // Last element of x-vector is last element of y-vector
-//     x[n - 1] = y[n - 1];
-//     for (int i = n - 2; i >= 0; --i)
-//     {
-//         // Initialize sum variable as 0.
-//         double sum = 0.0;
-//         // Parallel sum calculations
-//         #pragma omp parallel
-//         {
-//             #pragma omp single
-//             {
-//                 printf("Number of threads: %d\n", omp_get_num_threads());
-//             }
-
-//             #pragma omp for reduction(+:sum) schedule(static)
-//             for (int j = i + 1; j < n; ++j)
-//             {
-//                 sum += U[i * n + j] * x[j];
-//             }
-//         }
-//         // Update ith element of x-vector
-//         x[i] = y[i] - sum;
-//     }
-// }
-
-// void parallelBackSolveDynamic(double *x, double *y, double *U, const int n, int numThreads)
-// {
-//     omp_set_num_threads(numThreads);
-//     // Last element of x-vector is last element of y-vector
-//     x[n - 1] = y[n - 1];
-//     for (int i = n - 2; i >= 0; --i)
-//     {
-//         // Initialize sum variable as 0.
-//         double sum = 0.0;
-//         // Parallel sum calculations
-//         #pragma omp parallel
-//         {
-//             #pragma omp single
-//             {
-//                 printf("Number of threads: %d\n", omp_get_num_threads());
-//             }
-
-//             #pragma omp for reduction(+:sum) schedule(dynamic)
-//             for (int j = i + 1; j < n; ++j)
-//             {
-//                 // Update sum value
-//                 sum += U[i * n + j] * x[j];
-//             }
-//         }
-//         // Update ith element of x-vector
-//         x[i] = y[i] - sum;
-//     }
-// }
-
-// void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
-// {
-//     omp_set_num_threads(numThreads);
-//     // Last element of x-vector is last element of y-vector
-//     // x[n - 1] = y[n - 1];
-//     for (int j = n - 1; j >= 0; --j)
-//     {
-//         x[j] += y[j];
-// // Parallel sum calculations
-// #pragma omp parallel
-//         {
-//             // #pragma omp single
-//             // {
-//             //     printf("Number of threads: %d\n", omp_get_num_threads());
-//             // }
-
-// #pragma omp for schedule(dynamic)
-//             for (int i = 0; i < j; ++i)
-//             {
-//                 // Update sum value
-//                 x[i] -= U[i * n + j] * x[j];
-//                 // cout << "j = " << j << endl;
-//                 // cout << U[i * n + j] << endl;
-//                 // cout << j << endl;
-//             }
-//         }
-//     }
-// }
 
 void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
 {
@@ -165,16 +79,15 @@ void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int n
     {
         x[j] += y[j];
 
-        // #pragma omp single
-        // {
-        //     printf("Number of threads: %d\n", omp_get_num_threads());
-        // }
-
-        #pragma omp for schedule(static)
+        #pragma omp parallel for schedule(static)
         for (int i = 0; i < j; ++i)
         {
             // Update sum value
             x[i] -= U[i * n + j] * x[j];
+            #pragma omp critical
+            {
+                cout << omp_get_num_threads() << endl;
+            }
         }
     }
 }
@@ -189,16 +102,15 @@ void parallelBackSolveDynamic(double *x, double *y, double *U, const int n, int 
         x[j] += y[j];
         // Parallel sum calculations
 
-        // #pragma omp single
-        // {
-        //     printf("Number of threads: %d\n", omp_get_num_threads());
-        // }
-
-        #pragma omp for schedule(dynamic)
+        #pragma omp parallel for schedule(dynamic)
         for (int i = 0; i < j; ++i)
         {
             // Update sum value
             x[i] -= U[i * n + j] * x[j];
+            #pragma omp critical
+            {
+                cout << omp_get_num_threads() << endl;
+            }
         }
     }
 }
@@ -304,7 +216,7 @@ int main(int argc, char *argv[])
     double *y = new double[m];
 
     // Define number of trials
-    double numTrials = 50;
+    double numTrials = 1;
 
     // Define matrices A and B as the identity matrix
     for (int i = 0; i < m; ++i)

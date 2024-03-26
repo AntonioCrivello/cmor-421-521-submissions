@@ -1,126 +1,210 @@
 Matrix Size: 16, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 1.658e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 1.622e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 1.62e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 1.608e-05
+Parallel Back Solve with static scheduling: 8.40002e-07
+Parallel Back Solve with dynamic scheduling: 7.22e-06
 Matrix Size: 16, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 2.716e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.496e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 2.988e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.194e-05
+Parallel Back Solve with static scheduling: 7.19998e-07
+Parallel Back Solve with dynamic scheduling: 5.68e-06
 Matrix Size: 16, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 3.756e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.584e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 5.688e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.654e-05
+Parallel Back Solve with static scheduling: 7.59999e-07
+Parallel Back Solve with dynamic scheduling: 6.92e-06
 Matrix Size: 16, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 5.53e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 3.746e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 5.16e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 3.85e-05
+Parallel Back Solve with static scheduling: 7.60001e-07
+Parallel Back Solve with dynamic scheduling: 6.28e-06
 Matrix Size: 16, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 7.752e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 6.484e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 7.404e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 6.636e-05
+Parallel Back Solve with static scheduling: 7.80001e-07
+Parallel Back Solve with dynamic scheduling: 6.64e-06
 Matrix Size: 16, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00014034
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0001229
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00012522
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0001125
+Parallel Back Solve with static scheduling: 7.40001e-07
+Parallel Back Solve with dynamic scheduling: 6.32e-06
 Matrix Size: 32, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00012688
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00012728
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00015426
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00015266
+Parallel Back Solve with static scheduling: 2.68e-06
+Parallel Back Solve with dynamic scheduling: 2.394e-05
 Matrix Size: 32, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 8.772e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 8.19e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 8.952e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 8.022e-05
+Parallel Back Solve with static scheduling: 2.16e-06
+Parallel Back Solve with dynamic scheduling: 1.794e-05
 Matrix Size: 32, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 7.178e-05
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 4.926e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 6.592e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 5.554e-05
+Parallel Back Solve with static scheduling: 2.14e-06
+Parallel Back Solve with dynamic scheduling: 1.754e-05
 Matrix Size: 32, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00010244
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 6.05e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 7.624e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 5.81e-05
+Parallel Back Solve with static scheduling: 2.06e-06
+Parallel Back Solve with dynamic scheduling: 1.676e-05
 Matrix Size: 32, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00013582
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 8.202e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00012426
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 7.44e-05
+Parallel Back Solve with static scheduling: 2.48e-06
+Parallel Back Solve with dynamic scheduling: 1.928e-05
 Matrix Size: 32, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00018478
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0001325
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00018268
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00011824
+Parallel Back Solve with static scheduling: 2.02e-06
+Parallel Back Solve with dynamic scheduling: 1.986e-05
 Matrix Size: 64, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00103014
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00110802
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00090798
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00096044
+Parallel Back Solve with static scheduling: 6.42e-06
+Parallel Back Solve with dynamic scheduling: 4.858e-05
 Matrix Size: 64, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00052868
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00049522
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00050538
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00049762
+Parallel Back Solve with static scheduling: 7.92e-06
+Parallel Back Solve with dynamic scheduling: 5.396e-05
 Matrix Size: 64, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0004223
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0003217
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00042682
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00035964
+Parallel Back Solve with static scheduling: 1.018e-05
+Parallel Back Solve with dynamic scheduling: 5.506e-05
 Matrix Size: 64, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00024042
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00017104
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0003333
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0002501
+Parallel Back Solve with static scheduling: 7.42e-06
+Parallel Back Solve with dynamic scheduling: 5.608e-05
 Matrix Size: 64, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00026836
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00021296
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00028014
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00019926
+Parallel Back Solve with static scheduling: 7.88e-06
+Parallel Back Solve with dynamic scheduling: 5.574e-05
 Matrix Size: 64, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00027744
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0002218
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00037294
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00028436
+Parallel Back Solve with static scheduling: 8.82e-06
+Parallel Back Solve with dynamic scheduling: 7.126e-05
 Matrix Size: 128, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00823386
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00802204
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00786546
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00788538
+Parallel Back Solve with static scheduling: 2.392e-05
+Parallel Back Solve with dynamic scheduling: 0.00017758
 Matrix Size: 128, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00410038
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00417946
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0042965
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00388614
+Parallel Back Solve with static scheduling: 2.366e-05
+Parallel Back Solve with dynamic scheduling: 0.0001649
 Matrix Size: 128, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00220472
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00237122
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0020647
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00213752
+Parallel Back Solve with static scheduling: 2.542e-05
+Parallel Back Solve with dynamic scheduling: 0.00018118
 Matrix Size: 128, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00188158
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00190696
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00150692
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00151132
+Parallel Back Solve with static scheduling: 2.49e-05
+Parallel Back Solve with dynamic scheduling: 0.00018636
 Matrix Size: 128, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0017073
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00170472
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00128186
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00128174
+Parallel Back Solve with static scheduling: 2.506e-05
+Parallel Back Solve with dynamic scheduling: 0.00018808
 Matrix Size: 128, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0017921
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00159034
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0014635
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.001314
+Parallel Back Solve with static scheduling: 3.448e-05
+Parallel Back Solve with dynamic scheduling: 0.00017492
 Matrix Size: 256, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0597964
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0606791
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0615915
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0582517
+Parallel Back Solve with static scheduling: 0.0001267
+Parallel Back Solve with dynamic scheduling: 0.00079854
 Matrix Size: 256, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0318475
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0314867
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0322063
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0325891
+Parallel Back Solve with static scheduling: 0.00015222
+Parallel Back Solve with dynamic scheduling: 0.00094042
 Matrix Size: 256, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0167064
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.016162
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0179589
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0189471
+Parallel Back Solve with static scheduling: 0.00013424
+Parallel Back Solve with dynamic scheduling: 0.0010989
 Matrix Size: 256, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00909194
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0096226
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00951512
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00950358
+Parallel Back Solve with static scheduling: 0.0001224
+Parallel Back Solve with dynamic scheduling: 0.00078512
 Matrix Size: 256, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00898484
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00979918
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00975296
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00911862
+Parallel Back Solve with static scheduling: 0.0001423
+Parallel Back Solve with dynamic scheduling: 0.00084138
 Matrix Size: 256, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0102482
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0090043
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0087407
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00913136
+Parallel Back Solve with static scheduling: 0.00014266
+Parallel Back Solve with dynamic scheduling: 0.0009568
 Matrix Size: 512, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.596539
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.557045
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.541877
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.560738
+Parallel Back Solve with static scheduling: 0.00052474
+Parallel Back Solve with dynamic scheduling: 0.0035638
 Matrix Size: 512, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.289309
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.289117
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.280758
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.261387
+Parallel Back Solve with static scheduling: 0.00055036
+Parallel Back Solve with dynamic scheduling: 0.00343478
 Matrix Size: 512, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.154643
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.150968
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.139612
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.137125
+Parallel Back Solve with static scheduling: 0.00054252
+Parallel Back Solve with dynamic scheduling: 0.0034509
 Matrix Size: 512, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0871079
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0833086
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0840692
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0796131
+Parallel Back Solve with static scheduling: 0.00063242
+Parallel Back Solve with dynamic scheduling: 0.0040814
 Matrix Size: 512, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0812151
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0804999
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0755082
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0741222
+Parallel Back Solve with static scheduling: 0.00064904
+Parallel Back Solve with dynamic scheduling: 0.00433128
 Matrix Size: 512, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0880925
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0859742
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0755703
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0763328
+Parallel Back Solve with static scheduling: 0.00065772
+Parallel Back Solve with dynamic scheduling: 0.00417412
 Matrix Size: 1024, Thread Number: 1
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 4.35623
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 5.32414
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 4.19267
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 4.15014
+Parallel Back Solve with static scheduling: 0.00210426
+Parallel Back Solve with dynamic scheduling: 0.0132464
 Matrix Size: 1024, Thread Number: 2
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 2.52313
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.53098
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 2.27089
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.33848
+Parallel Back Solve with static scheduling: 0.00241428
+Parallel Back Solve with dynamic scheduling: 0.0156114
 Matrix Size: 1024, Thread Number: 4
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 1.28272
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 1.26605
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 1.16425
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 1.13591
+Parallel Back Solve with static scheduling: 0.00225352
+Parallel Back Solve with dynamic scheduling: 0.0135722
 Matrix Size: 1024, Thread Number: 8
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.799825
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.669673
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.646688
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.622709
+Parallel Back Solve with static scheduling: 0.00263646
+Parallel Back Solve with dynamic scheduling: 0.0141223
 Matrix Size: 1024, Thread Number: 16
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.627426
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.629286
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.604702
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.590837
+Parallel Back Solve with static scheduling: 0.00269376
+Parallel Back Solve with dynamic scheduling: 0.0164397
 Matrix Size: 1024, Thread Number: 32
-Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.612652
-Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.603727
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.612864
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.617088
+Parallel Back Solve with static scheduling: 0.00280422
+Parallel Back Solve with dynamic scheduling: 0.0179333

@@ -34,8 +34,10 @@ perform_work() {
     local output=$(./openmp_mat $matrix_size $thread_numbers)
 
     # Extract the timings for each matrix-matrix multiplication type
-    local matmul_parallel=$(echo "$output" | tail -n 2 | head -n 1 | awk '{print $NF}')
-    local matmul_parallel_collapsed=$(echo "$output" | tail -n 1 | awk '{print $NF}')
+    local matmul_parallel=$(echo "$output" | tail -n 4 | head -n 1 | awk '{print $NF}')
+    local matmul_parallel_collapsed=$(echo "$output" | tail -n 3 | head -n 1 | awk '{print $NF}')
+    local backsolve_parallel_static=$(echo "$output" | tail -n 2 | head -n 1 | awk '{print $NF}')
+    local backsolve_parallel_dynamic=$(echo "$output" | tail -n 1 | awk '{print $NF}')
 
     # Check for duplication only if resumed from checkpoint
     if [ "$resumed_from_checkpoint" = true ]; then
@@ -53,7 +55,7 @@ perform_work() {
     fi
 
     # Output the timings and sizing to .csv for plotting
-    echo "$matrix_size, $thread_numbers, $matmul_parallel, $matmul_parallel_collapsed" >> "docs/timing.csv"
+    echo "$matrix_size, $thread_numbers, $matmul_parallel, $matmul_parallel_collapsed, $backsolve_parallel_static, $backsolve_parallel_dynamic" >> "docs/timing.csv"
 
     # Append the results to .txt for documentation
     echo -e "Matrix Size: $matrix_size, Thread Number: $thread_numbers\n$output" >> "docs/results.txt"
