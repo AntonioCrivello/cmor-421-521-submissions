@@ -1,173 +1,185 @@
 #include <omp.h>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
 #define BLOCK_SIZE 8
-#define NUM_THREADS 16
-void matmulBlocked(double *A, double *B, double *C, const int n, int blockSize)
-{
-    for (int i = 0; i < n; i += blockSize)
-    {
-        for (int j = 0; j < n; j += blockSize)
-        {
-            for (int k = 0; k < n; k += blockSize)
-            {
-                // small matmul
-                for (int ii = i; ii < i + blockSize; ii++)
-                {
-                    for (int jj = j; jj < j + blockSize; jj++)
-                    {
-                        double Cij = C[jj + ii * n];
-                        for (int kk = k; kk < k + blockSize; kk++)
-                        {
-                            Cij += A[kk + ii * n] * B[jj + kk * n]; // Aik * Bkj
-                        }
-                        C[jj + ii * n] = Cij;
-                    }
-                }
-            }
-        }
-    }
-}
 
-void matmulParallel(double *A, double *B, double *C, const int n, int blockSize, int numThreads)
+void matmulParallel(double *A, double *B, double *C, const int n, int numThreads)
 {
+    // Block Matrix-Matrix Multiplication using #omp parallel for
+    // Define number of threads used in implementation
     omp_set_num_threads(numThreads);
-    #pragma omp parallel for 
-    for (int i = 0; i < n; i += blockSize)
+    #pragma omp parallel for
+    for (int i = 0; i < n; i += BLOCK_SIZE)
     {
-        // cout << omp_get_num_threads() << endl;
-        for (int j = 0; j < n; j += blockSize)
+        for (int j = 0; j < n; j += BLOCK_SIZE)
         {
-            for (int k = 0; k < n; k += blockSize)
+            for (int k = 0; k < n; k += BLOCK_SIZE)
             {
-                for (int ii = i; ii < i + blockSize; ii++)
+                for (int ii = i; ii < i + BLOCK_SIZE; ii++)
                 {
-                    for (int jj = j; jj < j + blockSize; jj++)
+                    for (int jj = j; jj < j + BLOCK_SIZE; jj++)
                     {
-                        for (int kk = k; kk < k + blockSize; kk++)
+                        for (int kk = k; kk < k + BLOCK_SIZE; kk++)
                         {
-                            // cout << omp_get_num_threads() << endl;
-                            // #pragma omp critical
-                            C[(ii) * n + (jj)] += A[(ii) * n + kk] * B[kk * n + (jj)];
+                            C[ii * n + jj] += A[ii * n + kk] * B[kk * n + jj];
                         }
                     }
                 }
             }
         }
+        // #pragma omp single
+        // {
+        //     printf("Number of threads: %d\n", omp_get_num_threads());
+        // }
     }
 }
 
-void matmulParallelCollapse(double *A, double *B, double *C, const int n, int blockSize, int numThreads)
+void matmulParallelCollapsed(double *A, double *B, double *C, const int n, int numThreads)
 {
+    // Block Matrix-Matrix Multiplication using #omp parallel for collapse(2)
+    // Define number of threads used in implementation
     omp_set_num_threads(numThreads);
     #pragma omp parallel for collapse(2)
-    for (int i = 0; i < n; i += blockSize)
+    for (int i = 0; i < n; i += BLOCK_SIZE)
     {
-        for (int j = 0; j < n; j += blockSize)
+        for (int j = 0; j < n; j += BLOCK_SIZE)
         {
-            for (int k = 0; k < n; k += blockSize)
+            for (int k = 0; k < n; k += BLOCK_SIZE)
             {
-                for (int ii = i; ii < i + blockSize; ii++)
+                for (int ii = i; ii < i + BLOCK_SIZE; ii++)
                 {
-                    for (int jj = j; jj < j + blockSize; jj++)
+                    for (int jj = j; jj < j + BLOCK_SIZE; jj++)
                     {
-                        for (int kk = k; kk < k + blockSize; kk++)
+                        for (int kk = k; kk < k + BLOCK_SIZE; kk++)
                         {
-                            // #pragma omp critical
-                            C[(ii) * n + (jj)] += A[(ii) * n + kk] * B[kk * n + (jj)];
+                            C[ii * n + jj] += A[ii * n + kk] * B[kk * n + jj];
                         }
                     }
                 }
-
-                // #pragma omp single
-                // {
-                //     printf("Number of threads: %d\n", omp_get_num_threads());
-                // }
             }
         }
+        // #pragma omp single
+        // {
+        //     printf("Number of threads: %d\n", omp_get_num_threads());
+        // }
     }
 }
 
-void backSolve(double *x, double *y, double *U, const int n)
-{
-    // Last element of x-vector is last element of y-vector
-    x[n - 1] = y[n - 1];
-    for (int i = n - 2; i >= 0; --i)
-    {
-        // Initialize sum variable as 0.
-        double sum = 0.0;
-        for (int j = i + 1; j < n; ++j)
-        {
-            // Update sum value
-            sum += U[i * n + j] * x[j];
-        }
-        // Update ith element of x-vector
-        x[i] = y[i] - sum;
-    }
-}
+
+
+// void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
+// {
+//     omp_set_num_threads(numThreads);
+//     // Last element of x-vector is last element of y-vector
+//     x[n - 1] = y[n - 1];
+//     for (int i = n - 2; i >= 0; --i)
+//     {
+//         // Initialize sum variable as 0.
+//         double sum = 0.0;
+//         // Parallel sum calculations
+//         #pragma omp parallel
+//         {
+//             #pragma omp single
+//             {
+//                 printf("Number of threads: %d\n", omp_get_num_threads());
+//             }
+
+//             #pragma omp for reduction(+:sum) schedule(static)
+//             for (int j = i + 1; j < n; ++j)
+//             {
+//                 sum += U[i * n + j] * x[j];
+//             }
+//         }
+//         // Update ith element of x-vector
+//         x[i] = y[i] - sum;
+//     }
+// }
+
+// void parallelBackSolveDynamic(double *x, double *y, double *U, const int n, int numThreads)
+// {
+//     omp_set_num_threads(numThreads);
+//     // Last element of x-vector is last element of y-vector
+//     x[n - 1] = y[n - 1];
+//     for (int i = n - 2; i >= 0; --i)
+//     {
+//         // Initialize sum variable as 0.
+//         double sum = 0.0;
+//         // Parallel sum calculations
+//         #pragma omp parallel
+//         {
+//             #pragma omp single
+//             {
+//                 printf("Number of threads: %d\n", omp_get_num_threads());
+//             }
+
+//             #pragma omp for reduction(+:sum) schedule(dynamic)
+//             for (int j = i + 1; j < n; ++j)
+//             {
+//                 // Update sum value
+//                 sum += U[i * n + j] * x[j];
+//             }
+//         }
+//         // Update ith element of x-vector
+//         x[i] = y[i] - sum;
+//     }
+// }
+
+// void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
+// {
+//     omp_set_num_threads(numThreads);
+//     // Last element of x-vector is last element of y-vector
+//     // x[n - 1] = y[n - 1];
+//     for (int j = n - 1; j >= 0; --j)
+//     {
+//         x[j] += y[j];
+// // Parallel sum calculations
+// #pragma omp parallel
+//         {
+//             // #pragma omp single
+//             // {
+//             //     printf("Number of threads: %d\n", omp_get_num_threads());
+//             // }
+
+// #pragma omp for schedule(dynamic)
+//             for (int i = 0; i < j; ++i)
+//             {
+//                 // Update sum value
+//                 x[i] -= U[i * n + j] * x[j];
+//                 // cout << "j = " << j << endl;
+//                 // cout << U[i * n + j] << endl;
+//                 // cout << j << endl;
+//             }
+//         }
+//     }
+// }
 
 void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
 {
     omp_set_num_threads(numThreads);
     // Last element of x-vector is last element of y-vector
-    x[n - 1] = y[n - 1];
-    for (int i = n - 2; i >= 0; --i)
+    // x[n - 1] = y[n - 1];
+    for (int j = n - 1; j >= 0; --j)
     {
-        // Initialize sum variable as 0.
-        double sum = 0.0;
-        // Parallel sum calculations
-        #pragma omp parallel
-        {
-            #pragma omp single
-            {
-                printf("Number of threads: %d\n", omp_get_num_threads());
-            }
+        x[j] += y[j];
 
-            #pragma omp for reduction(+:sum) schedule(static)
-            for (int j = i + 1; j < n; ++j)
-            {
-                sum += U[i * n + j] * x[j];
-            }
+        // #pragma omp single
+        // {
+        //     printf("Number of threads: %d\n", omp_get_num_threads());
+        // }
+
+        #pragma omp for schedule(static)
+        for (int i = 0; i < j; ++i)
+        {
+            // Update sum value
+            x[i] -= U[i * n + j] * x[j];
         }
-        // Update ith element of x-vector
-        x[i] = y[i] - sum;
     }
 }
-
 
 void parallelBackSolveDynamic(double *x, double *y, double *U, const int n, int numThreads)
-{
-    omp_set_num_threads(numThreads);
-    // Last element of x-vector is last element of y-vector
-    x[n - 1] = y[n - 1];
-    for (int i = n - 2; i >= 0; --i)
-    {
-        // Initialize sum variable as 0.
-        double sum = 0.0;
-        // Parallel sum calculations
-        #pragma omp parallel
-        {
-            #pragma omp single
-            {
-                printf("Number of threads: %d\n", omp_get_num_threads());
-            }
-
-            #pragma omp for reduction(+:sum) schedule(dynamic)
-            for (int j = i + 1; j < n; ++j)
-            {
-                // Update sum value
-                sum += U[i * n + j] * x[j];
-            }
-        }
-        // Update ith element of x-vector
-        x[i] = y[i] - sum;
-    }
-}
-
-
-void parallelBackSolveTest(double *x, double *y, double *U, const int n, int numThreads)
 {
     omp_set_num_threads(numThreads);
     // Last element of x-vector is last element of y-vector
@@ -176,30 +188,98 @@ void parallelBackSolveTest(double *x, double *y, double *U, const int n, int num
     {
         x[j] += y[j];
         // Parallel sum calculations
-        #pragma omp parallel
-        {
-            // #pragma omp single
-            // {
-            //     printf("Number of threads: %d\n", omp_get_num_threads());
-            // }
 
-            #pragma omp for schedule(dynamic)
-            for (int i = 0; i < j; ++i)
+        // #pragma omp single
+        // {
+        //     printf("Number of threads: %d\n", omp_get_num_threads());
+        // }
+
+        #pragma omp for schedule(dynamic)
+        for (int i = 0; i < j; ++i)
+        {
+            // Update sum value
+            x[i] -= U[i * n + j] * x[j];
+        }
+    }
+}
+
+void correctness_check(double *C, const int n)
+{
+    // Added correctness check from previous homework to confirm method
+    // implementation.
+    // Define I as the identity matrix
+    double *I = new double[n * n];
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            if (i == j)
             {
-                // Update sum value
-                x[i] -= U[i * n + j] * x[j];
-                // cout << "j = " << j << endl;
-                // cout << U[i * n + j] << endl;
-                // cout << j << endl;
+                I[i * n + j] = 1.0;
+            }
+            else
+            {
+                I[i * n + j] = 0.0;
             }
         }
     }
+    // Tolerance for machine precision
+    float tol = 1e-15 * n;
+
+    // Initial sum
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            sum += fabs(I[i * n + j] - C[i * n + j]);
+        }
+    }
+
+    // Check correctness of implementation
+    if (sum > tol)
+    {
+        cout << "Matrix C does not equal I to machine precision" << endl;
+    }
+
+    // Free allocated memory for identity matrix
+    delete[] I;
+}
+
+void correctness_check_vector(double *x, const int n)
+{
+    // Added correctness check from previous homework to confirm method
+    // implementation.
+    // Define I as the identity matrix
+    double *x_exact = new double[n];
+    for (int i = 0; i < n; ++i)
+    {
+        x_exact[i] = 1.0;
+    }
+    // Tolerance for machine precision
+    float tol = 1e-15 * n;
+
+    // Initial sum
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i)
+    {
+        sum += fabs(x_exact[i] - x[i]);
+    }
+
+    // Check correctness of implementation
+    if (sum > tol)
+    {
+        cout << "Vector x does not equal expected x-solution vector to machine precision" << endl;
+    }
+
+    // Free allocated memory for identity matrix
+    delete[] x_exact;
 }
 
 int main(int argc, char *argv[])
 {
 
-    if (argc < 4)
+    if (argc < 3)
     {
         cout << "Missing inputs." << endl;
         // Exit the programs
@@ -210,9 +290,8 @@ int main(int argc, char *argv[])
     int m = atoi(argv[1]);
     int n = m;
 
-    // User defined block size
-    int blockSize = atoi(argv[2]);
-    int numThreads = atoi(argv[3]);
+    // User defined number of threads
+    int numThreads = atoi(argv[2]);
 
     // Allocate memory for arrays containing matrices
     double *A = new double[m * n];
@@ -223,6 +302,9 @@ int main(int argc, char *argv[])
     // Allocate memory for vectors used in backsolve algorithm
     double *x = new double[n];
     double *y = new double[m];
+
+    // Define number of trials
+    double numTrials = 50;
 
     // Define matrices A and B as the identity matrix
     for (int i = 0; i < m; ++i)
@@ -274,107 +356,67 @@ int main(int argc, char *argv[])
         val++;
     }
 
-    // double elapsedTimeBlocked = omp_get_wtime();
-    // matmulBlocked(A, B, C, n, blockSize);
-    // elapsedTimeBlocked = omp_get_wtime() - elapsedTimeBlocked;
-
-    // for (int i = 0; i < m * n; ++i)
-    // {
-    //     C[i] = 0.0;
-    // }
-
-    double elapsedTimeParallel = omp_get_wtime();
-    // parallel_test(C, n);
-    matmulParallel(A, B, C, n, blockSize, numThreads);
-    elapsedTimeParallel = omp_get_wtime() - elapsedTimeParallel;
-
-    // for (int i = 0; i < n; ++i)
-    // {
-    //     for (int j = 0; j < n; ++j)
-    //     {
-    //         cout << C[i * n + j] << " ";
-    //     }
-    //     cout << endl;
-    // }
-
-    for (int i = 0; i < m * n; ++i)
+    double elapsedParallel = 0.0;
+    for (int trial = 0; trial < numTrials; ++trial)
     {
-        C[i] = 0.0;
+        for (int i = 0; i < m * n; ++i)
+        {
+            C[i] = 0.0;
+        }
+        double elapsedParallelStart = omp_get_wtime();
+        matmulParallel(A, B, C, n, numThreads);
+        elapsedParallel += omp_get_wtime() - elapsedParallelStart;
+        correctness_check(C, n);
     }
+    elapsedParallel /= numTrials;
 
-
-
-    double elapsedTimeParallelCollapse = omp_get_wtime();
-    // parallel_test(C, n);
-    matmulParallelCollapse(A, B, C, n, blockSize, numThreads);
-    elapsedTimeParallelCollapse = omp_get_wtime() - elapsedTimeParallelCollapse;
-
-    // for (int i = 0; i < n; ++i)
-    // {
-    //     for (int j = 0; j < n; ++j)
-    //     {
-    //         cout << C[i * n + j] << " ";
-    //     }
-    //     cout << endl;
-    // }
-
-    double elapsedBackSolve = omp_get_wtime();
-
-    backSolve(x, y, U, n);
-
-    elapsedBackSolve = omp_get_wtime() - elapsedBackSolve;
-
-    for (int i = 0; i < n; ++i)
+    double elapsedParallelCollapsed = 0.0;
+    for (int trial = 0; trial < numTrials; ++trial)
     {
-        //cout << x[i] << endl;
-        x[i] = 0.0;
+        for (int i = 0; i < m * n; ++i)
+        {
+            C[i] = 0.0;
+        }
+        double elapsedParallelCollapsedStart = omp_get_wtime();
+        matmulParallelCollapsed(A, B, C, n, numThreads);
+        elapsedParallelCollapsed += omp_get_wtime() - elapsedParallelCollapsedStart;
+        correctness_check(C, n);
     }
+    elapsedParallelCollapsed /= numTrials;
 
-    double elapsedBackSolveTest = omp_get_wtime();
-
-    parallelBackSolveTest(x, y, U, n, numThreads);
-
-    elapsedBackSolveTest = omp_get_wtime() - elapsedBackSolveTest;
-
-    for (int i = 0; i < n; ++i)
+    double elapsedParallelBackSolveStatic = 0.0;
+    for (int trial = 0; trial < numTrials; ++trial)
     {
-        //cout << x[i] << endl;
-        x[i] = 0.0;
+        for (int i = 0; i < n; ++i)
+        {
+            x[i] = 0.0;
+        }
+        double elapsedParallelBackSolveStaticStart = omp_get_wtime();
+        parallelBackSolveStatic(x, y, U, n, numThreads);
+        elapsedParallelBackSolveStatic += omp_get_wtime() - elapsedParallelBackSolveStaticStart;
+        correctness_check_vector(x, n);
     }
+    elapsedParallelBackSolveStatic /= numTrials;
 
-//     double elapsedParallelBackSolveStatic = omp_get_wtime();
-//     parallelBackSolveStatic(x, y, U, n, numThreads);
-//     elapsedParallelBackSolveStatic = omp_get_wtime() - elapsedParallelBackSolveStatic;
+    double elapsedParallelBackSolveDynamic = 0.0;
+    for (int trial = 0; trial < numTrials; ++trial)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            x[i] = 0.0;
+        }
+        double elapsedParallelBackSolveDynamicStart = omp_get_wtime();
+        parallelBackSolveDynamic(x, y, U, n, numThreads);
+        elapsedParallelBackSolveDynamic += omp_get_wtime() - elapsedParallelBackSolveDynamicStart;
+        correctness_check_vector(x, n);
+    }
+    elapsedParallelBackSolveDynamic /= numTrials;
 
-//     for (int i = 0; i < n; ++i)
-//     {
-//         cout << x[i] << endl;
-//         x[i] = 0.0;
-//     }
+    cout << "Blocked Matrix-Matrix Multiplication with #omp parallel for: " << elapsedParallel << endl;
+    cout << "Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): " << elapsedParallelCollapsed << endl;
+    cout << "Parallel Back Solve with static scheduling: " << elapsedParallelBackSolveStatic << endl;
+    cout << "Parallel Back Solve with dynamic scheduling: " << elapsedParallelBackSolveDynamic << endl;
 
-//     double elapsedParallelBackSolveDynamic = omp_get_wtime();
-//     parallelBackSolveDynamic(x, y, U, n, numThreads);
-//     elapsedParallelBackSolveDynamic = omp_get_wtime() - elapsedParallelBackSolveDynamic;
-
-//     for (int i = 0; i < n; ++i)
-//     {
-//         //cout << x[i] << endl;
-//         x[i] = 0.0;
-//     }
-
-//     // cout << elapsedTimeBlocked << endl;
-    cout << "Parallel:" << elapsedTimeParallel << endl;
-    cout << "Parallel for collapse:" << elapsedTimeParallelCollapse << endl;
-
-//     cout << elapsedTimeParallelCollapse << endl;
-
-    cout << "Serial:" << elapsedBackSolve << endl;
-    cout << "Dynamic:" << elapsedBackSolveTest << endl;
-//     cout << elapsedParallelBackSolveStatic << endl;
-//     cout << elapsedParallelBackSolveDynamic << endl;
-
-//     return 0;
-// }
     // Free allocated memory
     delete[] A;
     delete[] B;

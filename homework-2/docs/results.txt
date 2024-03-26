@@ -1,0 +1,126 @@
+Matrix Size: 16, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 1.658e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 1.622e-05
+Matrix Size: 16, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 2.716e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.496e-05
+Matrix Size: 16, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 3.756e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.584e-05
+Matrix Size: 16, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 5.53e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 3.746e-05
+Matrix Size: 16, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 7.752e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 6.484e-05
+Matrix Size: 16, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00014034
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0001229
+Matrix Size: 32, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00012688
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00012728
+Matrix Size: 32, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 8.772e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 8.19e-05
+Matrix Size: 32, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 7.178e-05
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 4.926e-05
+Matrix Size: 32, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00010244
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 6.05e-05
+Matrix Size: 32, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00013582
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 8.202e-05
+Matrix Size: 32, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00018478
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0001325
+Matrix Size: 64, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00103014
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00110802
+Matrix Size: 64, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00052868
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00049522
+Matrix Size: 64, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0004223
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0003217
+Matrix Size: 64, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00024042
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00017104
+Matrix Size: 64, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00026836
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00021296
+Matrix Size: 64, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00027744
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0002218
+Matrix Size: 128, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00823386
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00802204
+Matrix Size: 128, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00410038
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00417946
+Matrix Size: 128, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00220472
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00237122
+Matrix Size: 128, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00188158
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00190696
+Matrix Size: 128, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0017073
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00170472
+Matrix Size: 128, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0017921
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00159034
+Matrix Size: 256, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0597964
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0606791
+Matrix Size: 256, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0318475
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0314867
+Matrix Size: 256, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0167064
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.016162
+Matrix Size: 256, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00909194
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0096226
+Matrix Size: 256, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.00898484
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.00979918
+Matrix Size: 256, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0102482
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0090043
+Matrix Size: 512, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.596539
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.557045
+Matrix Size: 512, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.289309
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.289117
+Matrix Size: 512, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.154643
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.150968
+Matrix Size: 512, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0871079
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0833086
+Matrix Size: 512, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0812151
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0804999
+Matrix Size: 512, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.0880925
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.0859742
+Matrix Size: 1024, Thread Number: 1
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 4.35623
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 5.32414
+Matrix Size: 1024, Thread Number: 2
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 2.52313
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 2.53098
+Matrix Size: 1024, Thread Number: 4
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 1.28272
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 1.26605
+Matrix Size: 1024, Thread Number: 8
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.799825
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.669673
+Matrix Size: 1024, Thread Number: 16
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.627426
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.629286
+Matrix Size: 1024, Thread Number: 32
+Blocked Matrix-Matrix Multiplication with #omp parallel for: 0.612652
+Blocked Matrix-Matrix Multiplication with #omp parallel for collapse(2): 0.603727

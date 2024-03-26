@@ -1,45 +1,65 @@
 #!/bin/bash
 
-# Clean and compile
+#Clean and compile
 make clean
 make
 
-# Set block size
-block_size=8
+# Function to save the checkpoint
+save_checkpoint() {
+    echo "$1 $2" > checkpoint.txt
+}
 
-# If timing files already exists, delete it
-rm -rf "docs/timing.csv"
-rm -rf "docs/results.txt"
+# Function to resume from the last checkpoint
+resume_from_checkpoint() {
+    if [ -f "checkpoint.txt" ]; then
+        read -r i k < checkpoint.txt
+        echo "Resuming from checkpoint: i=$i, k=$k"
+    else
+        i=4
+        k=0
+        echo "No checkpoint found. Starting from the beginning: i=$i, k=$k"
+        > "docs/timing.csv"
+        > "docs/results.txt"
+    fi
+}
 
-# Output files
-output_csv="timings.csv"
-output_txt="timings.txt"
+# Function to perform the actual work
+perform_work() {
+    local matrix_size=$((2 ** i))
+    local thread_numbers=$((2 ** k))
+    local output=$(./openmp_mat $matrix_size $thread_numbers)
 
-# Clear the output files to start fresh
-echo "Matrix Size,Block Size,Number of Threads,Elapsed Back Solve,Elapsed Parallel Back Solve Static,Elapsed Parallel Back Solve Dynamic" > $output_csv
-echo "Timings for various matrix sizes and number of threads" > $output_txt
+    # Extract the timings for each matrix-matrix multiplication type
+    local matmul_parallel=$(echo "$output" | tail -n 2 | head -n 1 | awk '{print $NF}')
+    local matmul_parallel_collapsed=$(echo "$output" | tail -n 1 | awk '{print $NF}')
+    # recursive_timing=$(echo "$output" | tail -n 2 | head -n 1 | awk '{print $NF}')
+    # recursive_intermediate_timing=$(echo "$output" | tail -n 1 | awk '{print $NF}')
 
-# Loop over matrix sizes
-for matrix_size in 16 32 64 128 256 512 1024 2048 4096 8192 16384; do
-    # Loop over number of threads
-    for num_threads in 1 2 4 8 16 32 64; do
-        # Run the executable and capture the output
-        output=$(./openmp_mat $matrix_size $block_size $num_threads)
-    
+    # Output the timings and sizing to .csv for plotting
+    echo "$matrix_size, $thread_numbers, $matmul_parallel, $matmul_parallel_collapsed" >> "docs/timing.csv"
 
-        elapsedBackSolve=$(echo "$output" | tail -n 3 | head -n 1 | awk '{print $NF}')
-        elapsedParallelBackSolveStatic=$(echo "$output" | tail -n 2 | head -n 1 | awk '{print $NF}')
-        elapsedParallelBackSolveDynamic=$(echo "$output" | tail -n 1 | awk '{print $NF}')
+    # Append the results to .txt for documentation
+    echo -e "Matrix Size: $matrix_size, Thread Number: $thread_numbers\n$output" >> "docs/results.txt"
+}
 
-        
-        # Write to CSV
-        echo "$matrix_size,$block_size,$num_threads,$elapsedBackSolve,$elapsedParallelBackSolveStatic,$elapsedParallelBackSolveDynamic" >> $output_csv
-        
-        # Write to TXT
-        echo "Matrix Size: $matrix_size, Block Size: $block_size, Number of Threads: $num_threads" >> $output_txt
-        echo "Elapsed Back Solve: $elapsedBackSolve" >> $output_txt
-        echo "Elapsed Parallel Back Solve Static: $elapsedParallelBackSolveStatic" >> $output_txt
-        echo "Elapsed Parallel Back Solve Dynamic: $elapsedParallelBackSolveDynamic" >> $output_txt
-        echo "" >> $output_txt
+# Main function
+main() {
+    resume_from_checkpoint
+    # Loop for matrix sizes of 2^i for i = 4, 5, 6,...,10
+    for ((; i <= 10; i++)); do
+        # Loop for thread numbers of 2^k for k = 1,...,5
+        for ((; k <= 5; k++)); do
+            perform_work
+            save_checkpoint $i $k
+
+        done
+        k=0 # Reset k to 1 for the next loop of i
     done
-done
+    # Remove the checkpoint file after completion
+    rm -f checkpoint.txt
+}
+
+# Execute the main function
+main
+
+
