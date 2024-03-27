@@ -1,13 +1,14 @@
 #Define compile
-#CC = g++-13
-CC = g++
+CC = g++-13
+# Uncomment if using on Mac
+#CC = g++
 
-#Directories (For this homework does not requires, include, src, or obj)
+# Directories (For this homework does not requires, include, src, or obj)
 
-#Compiler flags
+# Compiler flags
 CFLAGS = -fopenmp
 
-#The build target
+# The build target
 all: openmp_mat
 
 openmp_mat: main.cpp

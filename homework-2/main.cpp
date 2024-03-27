@@ -26,10 +26,6 @@ void matmulParallel(double *A, double *B, double *C, const int n, int numThreads
                         for (int kk = k; kk < k + BLOCK_SIZE; kk++)
                         {
                             C[ii * n + jj] += A[ii * n + kk] * B[kk * n + jj];
-                            // #pragma omp critical
-                            // {
-                            //     cout << omp_get_num_threads() << endl;
-                            // }
                         }
                     }
                 }
@@ -58,10 +54,6 @@ void matmulParallelCollapsed(double *A, double *B, double *C, const int n, int n
                         for (int kk = k; kk < k + BLOCK_SIZE; kk++)
                         {
                             C[ii * n + jj] += A[ii * n + kk] * B[kk * n + jj];
-                            // #pragma omp critical
-                            // {
-                            //     cout << omp_get_num_threads() << endl;
-                            // }
                         }
                     }
                 }
@@ -73,21 +65,17 @@ void matmulParallelCollapsed(double *A, double *B, double *C, const int n, int n
 void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int numThreads)
 {
     omp_set_num_threads(numThreads);
-    // Last element of x-vector is last element of y-vector
-    // x[n - 1] = y[n - 1];
     for (int j = n - 1; j >= 0; --j)
     {
+        // Update x[j] with y value
         x[j] += y[j];
 
+        // Static scheduling of for loop
         #pragma omp for schedule(static)
         for (int i = 0; i < j; ++i)
         {
-            // Update sum value
+            // Update every vector element that uses x[j] value
             x[i] -= U[i * n + j] * x[j];
-            // #pragma omp critical
-            // {
-            //     cout << omp_get_num_threads() << endl;
-            // }
         }
     }
 }
@@ -95,22 +83,17 @@ void parallelBackSolveStatic(double *x, double *y, double *U, const int n, int n
 void parallelBackSolveDynamic(double *x, double *y, double *U, const int n, int numThreads)
 {
     omp_set_num_threads(numThreads);
-    // Last element of x-vector is last element of y-vector
-    // x[n - 1] = y[n - 1];
     for (int j = n - 1; j >= 0; --j)
     {
+        // Update x[j] with y value
         x[j] += y[j];
-        // Parallel sum calculations
 
+        // Dynamic scheduling of for loop
         #pragma omp for schedule(dynamic)
         for (int i = 0; i < j; ++i)
         {
-            // Update sum value
+            // Update every vector element that uses x[j] value
             x[i] -= U[i * n + j] * x[j];
-            // #pragma omp critical
-            // {
-            //     cout << omp_get_num_threads() << endl;
-            // }
         }
     }
 }
@@ -160,9 +143,9 @@ void correctness_check(double *C, const int n)
 
 void correctness_check_vector(double *x, const int n)
 {
-    // Added correctness check from previous homework to confirm method
+    // Added correctness check for vector to confirm method
     // implementation.
-    // Define I as the identity matrix
+    // Define x_exact as a vector of ones
     double *x_exact = new double[n];
     for (int i = 0; i < n; ++i)
     {
@@ -260,7 +243,7 @@ int main(int argc, char *argv[])
         x[i] = 0.0;
     }
 
-    // Define y as a vector of n to 1
+    // Define y as a vector of n to 1 so that x solution will be vector of ones
     int val = 1.0;
     for (int j = m - 1; j >= 0; --j)
     {
