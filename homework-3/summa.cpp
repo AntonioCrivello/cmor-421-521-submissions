@@ -1,6 +1,8 @@
 #include <mpi.h>
 #include <iostream>
+#include <cstdlib>
 #include <cmath>
+#include <ctime>
 
 using namespace std;
 
@@ -185,24 +187,16 @@ int main(int argc, char *argv[])
         A = new double[m * n];
         B = new double[m * n];
 
-        // Generate random matrices
-        for (int i = 0; i < m; ++i)
+        // Seed random number generator
+        srand(time(NULL));
+        // Generate random matrices A and B
+        for (int i = 0; i < m * n; ++i)
         {
-            for (int j = 0; j < n; ++j)
-            {
-                if (i == j)
-                {
-                    A[i * n + j] = 1.0;
-                    B[i * n + j] = 1.0;
-                }
-                else
-                {
-                    A[i * n + j] = 1.0;
-                    B[i * n + j] = 0.0;
-                }
-            }
+            // Generate random doubles
+            A[i] = double (rand());
+            B[i] = double (rand());
         }
-
+        
         // Convert matrices so that they can be scattered to the other processors
         double *A_scatter = convert_matrix(A, block_size, p, m, n);
         double *B_scatter = convert_matrix(B, block_size, p, m, n);
@@ -223,9 +217,6 @@ int main(int argc, char *argv[])
     // Initialize matrices to be used for broadcast buffer
     double *A_recv = new double[local_size];
     double *B_recv = new double[local_size];
-    // for (int i = 0; i < local_size; ++i) {
-    //     A_recv[i] = A_local[i];    
-    // }
 
     for (int k = 0; k < p; ++k) {
         if (col_color == k) {
