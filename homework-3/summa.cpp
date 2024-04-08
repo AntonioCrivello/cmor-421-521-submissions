@@ -35,7 +35,7 @@ double *convert_matrix(double *matrix, int block_size, int p, int m, int n)
 
 double *revert_matrix(double *matrix, int block_size, int p, int m, int n)
 {
-    // Reorders elements in provided matrix so that root processor result is not scattered. 
+    // Reorders elements in provided matrix so that root processor result is not scattered.
 
     // Create temporary matrix
     double *temp = new double[m * n];
@@ -120,7 +120,9 @@ void correctness_check(double *C, double *C_serial, int m, int n)
     if (sum > tol)
     {
         cout << "Matrix C does not equal C from serial routine to machine precision" << endl;
-    } else {
+    }
+    else
+    {
         cout << "Matrices Match" << endl;
     }
 }
@@ -193,10 +195,10 @@ int main(int argc, char *argv[])
         for (int i = 0; i < m * n; ++i)
         {
             // Generate random doubles
-            A[i] = double (rand());
-            B[i] = double (rand());
+            A[i] = double(rand());
+            B[i] = double(rand());
         }
-        
+
         // Convert matrices so that they can be scattered to the other processors
         double *A_scatter = convert_matrix(A, block_size, p, m, n);
         double *B_scatter = convert_matrix(B, block_size, p, m, n);
@@ -218,20 +220,25 @@ int main(int argc, char *argv[])
     double *A_recv = new double[local_size];
     double *B_recv = new double[local_size];
 
-    for (int k = 0; k < p; ++k) {
-        if (col_color == k) {
+    for (int k = 0; k < p; ++k)
+    {
+        if (col_color == k)
+        {
             // Initialize receive matrix as local matrix
-            for (int i = 0; i < local_size; ++i) {
-                A_recv[i] = A_local[i];    
+            for (int i = 0; i < local_size; ++i)
+            {
+                A_recv[i] = A_local[i];
             }
         }
         // Broadcast local matrix to row communicator group
         MPI_Bcast(A_recv, local_size, MPI_DOUBLE, k, row_comm);
 
-        if (row_color == k) {
+        if (row_color == k)
+        {
             // Initialize receive matrix as local matrix
-            for (int i = 0; i < local_size; ++i) {
-                B_recv[i] = B_local[i];    
+            for (int i = 0; i < local_size; ++i)
+            {
+                B_recv[i] = B_local[i];
             }
         }
         // Broadcast local matrix to column communicator group
@@ -243,14 +250,16 @@ int main(int argc, char *argv[])
 
     // Initialize matrix to be used to gather results from each processor
     double *C_gathered = nullptr;
-    if (rank == 0) {
+    if (rank == 0)
+    {
         C_gathered = new double[m * n];
     }
 
     // Gather all results on different processors to root
     MPI_Gather(C_local, local_size, MPI_DOUBLE, C_gathered, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    if (rank == 0) {
+    if (rank == 0)
+    {
         // Revert matrix back to correct order
         double *C = revert_matrix(C_gathered, block_size, p, m, n);
 
