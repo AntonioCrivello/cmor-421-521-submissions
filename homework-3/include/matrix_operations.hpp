@@ -2,8 +2,6 @@
 #ifndef MATRIX_OPERATIONS
 #define MATRIX_OPERATIONS
 
-#include <mpi.h>
-
 // Functions used in matrix scatter and gather
 double *convert_matrix(double *matrix, int block_size, int p, int m, int n);
 double *revert_matrix(double *matrix, int block_size, int p, int m, int n);

@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         A = new double[m * n];
         B = new double[m * n];
 
-        // Randomly populate matrices
+        // // Randomly populate matrices
         populate_matrix(A, m, n);
         populate_matrix(B, m, n);
 
@@ -140,6 +140,9 @@ int main(int argc, char *argv[])
 
         // Initialize C matrix for serial matrix-matrix multiplication
         C_serial = new double[m * n];
+        for (int i = 0; i < m * n; ++i) {
+            C_serial[i] = 0.0;
+        }
 
         // Serial matrix-matrix mutliplication
         matmul_serial(A, B, C_serial, n, block_size);

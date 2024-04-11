@@ -1,5 +1,6 @@
 #include "matrix_operations.hpp"
 
+#include <mpi.h>
 #include <iostream>
 #include <cmath>
 #include <ctime>
@@ -127,6 +128,18 @@ void correctness_check(double *C, double *C_serial, int m, int n)
     if (sum > tol)
     {
         cout << "Matrix C does not equal C from serial routine to machine precision" << endl;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                cout << C[i * n + j] << " ";
+            }
+            cout << endl;
+        }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                cout << C_serial[i * n + j] << " ";
+            }
+            cout << endl;
+        }
     }
     else
     {
