@@ -103,10 +103,12 @@ void matmul_serial(double *A, double *B, double *C, const int n, int block_size)
     }
 }
 
-void populate_matrix(double *matrix, int m, int n){
+void populate_matrix(double *matrix, int m, int n)
+{
     // Random seed
     srand(time(NULL));
-    for (int i = 0; i < m * n; ++i) {
+    for (int i = 0; i < m * n; ++i)
+    {
         matrix[i] = (rand() / RAND_MAX * 2.0 - 1.0) * RAND_MAX;
     }
 }

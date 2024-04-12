@@ -8,37 +8,51 @@
 
 using namespace std;
 
-void row_shift(int& row_send, int& row_recv, int row_index, int col_index, int p, int rank) {
-    if (col_index == 0) {
+void row_shift(int &row_send, int &row_recv, int row_index, int col_index, int p, int rank)
+{
+    if (col_index == 0)
+    {
         // First processor in row needs to wrap around to last
         row_send = (row_index + 1) * p - 1;
-    } else {
+    }
+    else
+    {
         // All other processors send to processor directly before
         row_send = rank - 1;
     }
 
-    if (col_index == p - 1) {
+    if (col_index == p - 1)
+    {
         // Last processor in row needs to receive from first
         row_recv = row_index * p;
-    } else {
+    }
+    else
+    {
         // All other processors receive from processor directly after
         row_recv = rank + 1;
-    }   
+    }
 }
 
-void column_shift(int& col_send, int& col_recv, int row_index, int col_index, int p, int rank) {
-    if (row_index == 0) {
+void column_shift(int &col_send, int &col_recv, int row_index, int col_index, int p, int rank)
+{
+    if (row_index == 0)
+    {
         // First processor in columns needs to wrap around to last
         col_send = col_index + (p - 1) * p;
-    } else {
+    }
+    else
+    {
         // All other processsors need to send to processor directly above
         col_send = rank - p;
     }
 
-    if (row_index == p - 1) {
-        // Last processor in column needs to receive from first 
+    if (row_index == p - 1)
+    {
+        // Last processor in column needs to receive from first
         col_recv = col_index;
-    } else {
+    }
+    else
+    {
         // All other processors need to receive from processor directly below
         col_recv = rank + p;
     }
@@ -48,7 +62,7 @@ int main(int argc, char *argv[])
 {
     // Initialize MPI Execution Environment
     MPI_Init(NULL, NULL);
-    
+
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -93,7 +107,8 @@ int main(int argc, char *argv[])
     double *C = nullptr;
     double *C_serial = nullptr;
 
-    if (rank == 0) {
+    if (rank == 0)
+    {
         // Root process initializes and scatter matrices used in matrix-matrix multiplication
         A = new double[m * n];
         B = new double[m * n];
@@ -113,7 +128,9 @@ int main(int argc, char *argv[])
         // Free allocated memory for scatter matrices
         delete[] A_scatter;
         delete[] B_scatter;
-    } else {
+    }
+    else
+    {
         // Non-root processes call of MPI_Scatter
         MPI_Scatter(nullptr, local_size, MPI_DOUBLE, A_local, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         MPI_Scatter(nullptr, local_size, MPI_DOUBLE, B_local, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -125,21 +142,24 @@ int main(int argc, char *argv[])
     int col_index = rank % p;
 
     // Initial Matrix A Skewing
-    for (int i = 0; i < row_index; ++i) {
+    for (int i = 0; i < row_index; ++i)
+    {
         row_shift(row_send, row_recv, row_index, col_index, p, rank);
-         // Skew A matrices on each processor
+        // Skew A matrices on each processor
         MPI_Sendrecv_replace(A_local, local_size, MPI_DOUBLE, row_send, 0, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
-    
+
     // Initial Matrix B Skewing
-    for (int j = 0; j < col_index; ++j) {
+    for (int j = 0; j < col_index; ++j)
+    {
         column_shift(col_send, col_recv, row_index, col_index, p, rank);
         // Skew B matrices on each processor
         MPI_Sendrecv_replace(B_local, local_size, MPI_DOUBLE, col_send, 0, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     // Circular shift of A and B
-    for (int k = 0; k < p; ++k) {
+    for (int k = 0; k < p; ++k)
+    {
         // Local matrix multiplication
         matmul_local(A_local, B_local, C_local, block_size);
 
@@ -150,7 +170,7 @@ int main(int argc, char *argv[])
 
         // Send and receive A and B matrices for each processor
         MPI_Sendrecv_replace(A_local, local_size, MPI_DOUBLE, row_send, 0, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Sendrecv_replace(B_local, local_size, MPI_DOUBLE, col_send, 0, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
+        MPI_Sendrecv_replace(B_local, local_size, MPI_DOUBLE, col_send, 0, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     // Initialize matrix to be used to gather results from each processor
@@ -170,7 +190,8 @@ int main(int argc, char *argv[])
 
         // Initialize C matrix for serial matrix-matrix multiplication
         C_serial = new double[m * n];
-        for (int i = 0; i < m * n; ++i) {
+        for (int i = 0; i < m * n; ++i)
+        {
             C_serial[i] = 0.0;
         }
 
@@ -179,7 +200,7 @@ int main(int argc, char *argv[])
 
         // Check that serial result matches MPI result
         correctness_check(C, C_serial, m, n);
-    
+
         // Free allocated memory
         delete[] A;
         delete[] B;

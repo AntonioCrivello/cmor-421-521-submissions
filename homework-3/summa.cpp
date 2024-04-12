@@ -85,7 +85,9 @@ int main(int argc, char *argv[])
         // Free allocated memory for scatter matrices
         delete[] A_scatter;
         delete[] B_scatter;
-    } else {
+    }
+    else
+    {
         // Non-root processes call of MPI_Scatter
         MPI_Scatter(nullptr, local_size, MPI_DOUBLE, A_local, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         MPI_Scatter(nullptr, local_size, MPI_DOUBLE, B_local, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -140,7 +142,8 @@ int main(int argc, char *argv[])
 
         // Initialize C matrix for serial matrix-matrix multiplication
         C_serial = new double[m * n];
-        for (int i = 0; i < m * n; ++i) {
+        for (int i = 0; i < m * n; ++i)
+        {
             C_serial[i] = 0.0;
         }
 
