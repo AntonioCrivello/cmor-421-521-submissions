@@ -8,6 +8,42 @@
 
 using namespace std;
 
+void row_shift(int& row_send, int& row_recv, int row_index, int col_index, int p, int rank) {
+    if (col_index == 0) {
+        // First processor in row needs to wrap around to last
+        row_send = (row_index + 1) * p - 1;
+    } else {
+        // All other processors send to processor directly before
+        row_send = rank - 1;
+    }
+
+    if (col_index == p - 1) {
+        // Last processor in row needs to receive from first
+        row_recv = row_index * p;
+    } else {
+        // All other processors receive from processor directly after
+        row_recv = rank + 1;
+    }   
+}
+
+void column_shift(int& col_send, int& col_recv, int row_index, int col_index, int p, int rank) {
+    if (row_index == 0) {
+        // First processor in columns needs to wrap around to last
+        col_send = col_index + (p - 1) * p;
+    } else {
+        // All other processsors need to send to processor directly above
+        col_send = rank - p;
+    }
+
+    if (row_index == p - 1) {
+        // Last processor in column needs to receive from first 
+        col_recv = col_index;
+    } else {
+        // All other processors need to receive from processor directly below
+        col_recv = rank + p;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     // Initialize MPI Execution Environment
@@ -63,8 +99,19 @@ int main(int argc, char *argv[])
         B = new double[m * n];
 
         // // Randomly populate matrices
-        populate_matrix(A, m, n);
-        populate_matrix(B, m, n);
+        // populate_matrix(A, m, n);
+        // populate_matrix(B, m, n);
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i == j) {
+                    A[i * n + j] = 1.0;
+                    B[i * n + j] = 1.0;
+                } else {
+                    A[i * n + j] = 0.0;
+                    B[i * n + j] = 0.0;
+                }
+            }
+        }
 
         // Convert matrices so that they can be scattered to the other processors
         double *A_scatter = convert_matrix(A, block_size, p, m, n);
@@ -88,72 +135,122 @@ int main(int argc, char *argv[])
     int row_index = rank / p;
     int col_index = rank % p;
 
-    // Circular shift of A and B
-    for (int k = 0; k < p; ++k) {
-        if (col_index == 0) {
-            // First processor in row needs to wrap around to last
-            row_send = (row_index + 1) * p - 1;
-        } else {
-            // All other processors send to processor directly before
-            row_send = rank - 1;
-        }
-
-        if (col_index == p - 1) {
-            // Last processor in row needs to receive from first
-            row_recv = row_index * p;
-        } else {
-            // All other processors receive from processor directly after
-            row_recv = rank + 1;
-        }
-
-        if (row_index == 0) {
-            // First processor in columns needs to wrap around to last
-            col_send = col_index + (p - 1) * p;
-        } else {
-            // All other processsors need to send to processor directly above
-            col_send = rank - p;
-        }
-
-        if (row_index == p - 1) {
-            // Last processor in column needs to receive from first 
-            col_recv = col_index;
-        } else {
-            // All other processors need to receive from processor directly below
-            col_recv = rank + p;
-        }
+    // Initial Matrix A Skewing
+    for (int i = 0; i < row_index; i++) {
+        row_shift(row_send, row_recv, row_index, col_index, p, rank);
+         // Skew A matrices on each processor
+        MPI_Sendrecv(A_local, local_size, MPI_DOUBLE, row_send, 0, 
+                     A_local, local_size, MPI_DOUBLE, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
-    // row_send = rank - 1;
-    // if (row_send < 0) {
-    //     row_send = size - 1;
-    // }
-    // row_recv = (rank + 1) % size;
+    for (int i = 0; i < size; ++i) {
+        if (rank == i) {
+            cout << "Rank: " << rank << endl;
+            for (int s = 0; s < block_size; ++s) {
+                for (int t = 0; t < block_size; ++t) {
+                    cout << A_local[s * block_size + t] << " ";
+                }
+                cout << endl;
+            }
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
+    
+    // Initial Matrix B Skewing
+    for (int j = 0; j < col_index; j++) {
+        column_shift(col_send, col_recv, row_index, col_index, p, rank);
+        // Skew B matrices on each processor
+        MPI_Sendrecv(B_local, local_size, MPI_DOUBLE, col_send, 0, 
+                     B_local, local_size, MPI_DOUBLE, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+    for (int i = 0; i < size; ++i) {
+        if (rank == i) {
+            cout << "Rank: " << rank << endl;
+            for (int s = 0; s < block_size; ++s) {
+                for (int t = 0; t < block_size; ++t) {
+                    cout << B_local[s * block_size + t] << " ";
+                }
+                cout << endl;
+            }
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
+    
 
+    // Circular shift of A and B
+    for (int k = 0; k < p; k++) {
+        // Local matrix multiplication
+        matmul_local(A_local, B_local, C_local, block_size);
+
+        row_shift(row_send, row_recv, row_index, col_index, p, rank);
+        column_shift(col_send, col_recv, row_index, col_index, p, rank);
+
+        // cout << "Rank: " << rank << endl;
+        // cout << "row index: " << row_index << endl;
+        // cout << "Col index: " << col_index << endl;
+        // cout << row_send << endl;
+        // cout << row_recv << endl;
+        // cout << col_send << endl;
+        // cout << col_recv << endl; 
+
+        MPI_Sendrecv(A_local, local_size, MPI_DOUBLE, row_send, 0, 
+                    A_local, local_size, MPI_DOUBLE, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Sendrecv(B_local, local_size, MPI_DOUBLE, col_send, 0, 
+                    B_local, local_size, MPI_DOUBLE, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        
+    }
 
     for (int i = 0; i < size; ++i) {
         if (rank == i) {
-            cout << "Rank:" << rank << endl;
-            cout << "Row Send: " << row_send << endl;
-            cout << "Row Receive: " << row_recv << endl;
-            cout << "Col Send: " << col_send << endl;
-            cout << "Col Receive: " << col_recv << endl;
+            cout << "Rank: " << rank << endl;
+            for (int s = 0; s < block_size; ++s) {
+                for (int t = 0; t < block_size; ++t) {
+                    cout << C_local[s * block_size + t] << " ";
+                }
+                cout << endl;
+            }
         }
+        MPI_Barrier(MPI_COMM_WORLD);
     }
 
+    // Initialize matrix to be used to gather results from each processor
+    double *C_gathered = nullptr;
+    if (rank == 0)
+    {
+        C_gathered = new double[m * n];
+    }
 
-    // for (int k = 0; k < p; ++k) {
-    //     // Local matrix multiplication
-    //     matmul_local(A_local, B_local, C_local, block_size);
+    // Gather all results on different processors to root
+    MPI_Gather(C_local, local_size, MPI_DOUBLE, C_gathered, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    //     // Circular shift row to left
-    //     int row_send, row_recv;
-    //     MPI_Sendrecv(A_local, local_size, MPI_DOUBLE, row_send, 0, 
-    //                  A_local, local_size, MPI_DOUBLE, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    if (rank == 0)
+    {
+        // Revert matrix back to correct order
+        double *C = revert_matrix(C_gathered, block_size, p, m, n);
 
-    //     // Circular shift column upward
-    //     int col_send, col_recv;
-    //     MPI_Sendrecv(B_local, local_size, MPI_DOUBLE, col_send, 0, 
-    //                  A_local, local_size, MPI_DOUBLE, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    // }
+        // Initialize C matrix for serial matrix-matrix multiplication
+        C_serial = new double[m * n];
+        for (int i = 0; i < m * n; ++i) {
+            C_serial[i] = 0.0;
+        }
+
+        // Serial matrix-matrix mutliplication
+        matmul_serial(A, B, C_serial, n, block_size);
+
+        // Check that serial result matches MPI result
+        correctness_check(C, C_serial, m, n);
+
+        // Free allocated memory
+        delete[] A;
+        delete[] B;
+        delete[] C;
+        delete[] C_gathered;
+        delete[] C_serial;
+    }
+
+    // Free allocated memory for local matrices
+    delete[] A_local;
+    delete[] B_local;
+    delete[] C_local;
 
     MPI_Finalize();
     return 0;
