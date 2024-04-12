@@ -104,9 +104,10 @@ void matmul_serial(double *A, double *B, double *C, const int n, int block_size)
 }
 
 void populate_matrix(double *matrix, int m, int n){
+    // Random seed
     srand(time(NULL));
     for (int i = 0; i < m * n; ++i) {
-        matrix[i] = ((double)rand() / RAND_MAX * 2.0 - 1.0) * RAND_MAX;
+        matrix[i] = (rand() / RAND_MAX * 2.0 - 1.0) * RAND_MAX;
     }
 }
 
@@ -128,18 +129,6 @@ void correctness_check(double *C, double *C_serial, int m, int n)
     if (sum > tol)
     {
         cout << "Matrix C does not equal C from serial routine to machine precision" << endl;
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                cout << C[i * n + j] << " ";
-            }
-            cout << endl;
-        }
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                cout << C_serial[i * n + j] << " ";
-            }
-            cout << endl;
-        }
     }
     else
     {

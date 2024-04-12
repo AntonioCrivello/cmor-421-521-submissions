@@ -99,19 +99,8 @@ int main(int argc, char *argv[])
         B = new double[m * n];
 
         // // Randomly populate matrices
-        // populate_matrix(A, m, n);
-        // populate_matrix(B, m, n);
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (i == j) {
-                    A[i * n + j] = 1.0;
-                    B[i * n + j] = 1.0;
-                } else {
-                    A[i * n + j] = 0.0;
-                    B[i * n + j] = 0.0;
-                }
-            }
-        }
+        populate_matrix(A, m, n);
+        populate_matrix(B, m, n);
 
         // Convert matrices so that they can be scattered to the other processors
         double *A_scatter = convert_matrix(A, block_size, p, m, n);
@@ -136,80 +125,32 @@ int main(int argc, char *argv[])
     int col_index = rank % p;
 
     // Initial Matrix A Skewing
-    for (int i = 0; i < row_index; i++) {
+    for (int i = 0; i < row_index; ++i) {
         row_shift(row_send, row_recv, row_index, col_index, p, rank);
          // Skew A matrices on each processor
-        MPI_Sendrecv(A_local, local_size, MPI_DOUBLE, row_send, 0, 
-                     A_local, local_size, MPI_DOUBLE, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
-    for (int i = 0; i < size; ++i) {
-        if (rank == i) {
-            cout << "Rank: " << rank << endl;
-            for (int s = 0; s < block_size; ++s) {
-                for (int t = 0; t < block_size; ++t) {
-                    cout << A_local[s * block_size + t] << " ";
-                }
-                cout << endl;
-            }
-        }
-        MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Sendrecv_replace(A_local, local_size, MPI_DOUBLE, row_send, 0, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
     
     // Initial Matrix B Skewing
-    for (int j = 0; j < col_index; j++) {
+    for (int j = 0; j < col_index; ++j) {
         column_shift(col_send, col_recv, row_index, col_index, p, rank);
         // Skew B matrices on each processor
-        MPI_Sendrecv(B_local, local_size, MPI_DOUBLE, col_send, 0, 
-                     B_local, local_size, MPI_DOUBLE, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Sendrecv_replace(B_local, local_size, MPI_DOUBLE, col_send, 0, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
-    for (int i = 0; i < size; ++i) {
-        if (rank == i) {
-            cout << "Rank: " << rank << endl;
-            for (int s = 0; s < block_size; ++s) {
-                for (int t = 0; t < block_size; ++t) {
-                    cout << B_local[s * block_size + t] << " ";
-                }
-                cout << endl;
-            }
-        }
-        MPI_Barrier(MPI_COMM_WORLD);
-    }
-    
 
     // Circular shift of A and B
-    for (int k = 0; k < p; k++) {
+    for (int k = 0; k < p; ++k) {
         // Local matrix multiplication
         matmul_local(A_local, B_local, C_local, block_size);
 
+        // Determine send and receive locations each processor for its row
         row_shift(row_send, row_recv, row_index, col_index, p, rank);
+        // Determine send and receive locations for each processor for its column
         column_shift(col_send, col_recv, row_index, col_index, p, rank);
 
-        // cout << "Rank: " << rank << endl;
-        // cout << "row index: " << row_index << endl;
-        // cout << "Col index: " << col_index << endl;
-        // cout << row_send << endl;
-        // cout << row_recv << endl;
-        // cout << col_send << endl;
-        // cout << col_recv << endl; 
-
-        MPI_Sendrecv(A_local, local_size, MPI_DOUBLE, row_send, 0, 
-                    A_local, local_size, MPI_DOUBLE, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Sendrecv(B_local, local_size, MPI_DOUBLE, col_send, 0, 
-                    B_local, local_size, MPI_DOUBLE, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        
-    }
-
-    for (int i = 0; i < size; ++i) {
-        if (rank == i) {
-            cout << "Rank: " << rank << endl;
-            for (int s = 0; s < block_size; ++s) {
-                for (int t = 0; t < block_size; ++t) {
-                    cout << C_local[s * block_size + t] << " ";
-                }
-                cout << endl;
-            }
-        }
-        MPI_Barrier(MPI_COMM_WORLD);
+        // Send and receive A and B matrices for each processor
+        MPI_Sendrecv_replace(A_local, local_size, MPI_DOUBLE, row_send, 0, row_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Sendrecv_replace(B_local, local_size, MPI_DOUBLE, col_send, 0, col_recv, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
     }
 
     // Initialize matrix to be used to gather results from each processor
@@ -238,7 +179,7 @@ int main(int argc, char *argv[])
 
         // Check that serial result matches MPI result
         correctness_check(C, C_serial, m, n);
-
+    
         // Free allocated memory
         delete[] A;
         delete[] B;
