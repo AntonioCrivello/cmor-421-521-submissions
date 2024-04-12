@@ -1,5 +1,8 @@
 #include <mpi.h>
 #include <iostream>
+#include <cstdlib>
+#include <cmath>
+#include <ctime>
 
 #include "matrix_operations.hpp"
 
