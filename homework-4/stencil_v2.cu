@@ -2,6 +2,9 @@
 #include <math.h>
 #include <cuda_runtime.h>
 
+// Define
+#define HALO 1
+
 __global__ void stencil(const int N, float * y, const float * x) {
 
     __shared__ float s_x[blockSize + 2];
