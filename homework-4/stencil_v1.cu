@@ -2,24 +2,22 @@
 #include <math.h>
 #include <cuda_runtime.h>
 
-__global__ void stencil(const int N, float * d_y, const float * d_x) {
+__global__ void stencil(const int N, float * y, const float * x) {
 
     const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (i < N) {
-      // printf("x value = %f\n", d_x[i]);
-      int ip1 = (i + 1) % N;
-      int im1 = (i - 1 + N) % N;
-      d_y[i] = -1 * d_x[ip1] + 2.f * d_x[i] - d_x[im1];
+    float xn1, xn, xp1;
+    xn = x[i];
 
-    } 
-    // d_y[i] = -1 * d_x[i] + 2.f * d_x[i] - d_x[i-1];
+    xn1 = (i == 0) ? xn : x[i - 1];
+    xp1 = (i == N - 1) ? xn : x[i + 1];
+
+    y[i] = -1 * xp1 + 2 * xn - xn1;
 
 }
 
 int main(int argc, char * argv[]) {
     int N = 4194304;
-    // int N = 16;
     if (argc < 2) {
         printf("Missing Inputs");
         exit(EXIT_FAILURE);
@@ -31,18 +29,22 @@ int main(int argc, char * argv[]) {
     // Next largest multiple of blockSize
     int numBlocks = (N + blockSize - 1) / blockSize;
 
-    // x vector
+    // x vector has n elements with two boundaries x_0 and x_n+1
+    // Define x vector
     float *x = new float [N];
-    int size_x = N * sizeof(float);
+    int size_x = (N) * sizeof(float);
 
-    // y vector
+    // Define y vector
     float *y = new float [N];
     int size_y = N * sizeof(float);
 
     // Defining x_i = 1
     for (int i = 0; i < N; ++i) {
         x[i] = 1.f;
-        y[i] = 1.f;
+    }
+    
+    for (int i = 0; i < N; ++i) {
+        y[i] = 0.f;
     }
 
     // Allocate memory and copy to the GPU
@@ -61,6 +63,8 @@ int main(int argc, char * argv[]) {
     // Copy memory back to the CPU
     cudaMemcpy(y, d_y, size_y, cudaMemcpyDeviceToHost);
 
+    // Handle boundary conditions
+
 
     // Known solution of stencil
     float *y_solution = new float[N];
@@ -71,6 +75,7 @@ int main(int argc, char * argv[]) {
     // Initialize error to zero
     float error = 0.f;
     for (int i = 0; i < N; ++i) {
+      // printf("y[i] = %f\n", y[i]);
       error += fabs(y[i] - y_solution[i]);
     }
     printf("error = %f\n", error);
