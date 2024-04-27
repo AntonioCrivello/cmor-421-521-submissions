@@ -8,46 +8,21 @@
 __global__ void stencil(const int N, float *y, const float *x) {
 
     // Define shared memory with halo points include
-    __shared__ float s_x[blockSize + 2];
+    __shared__ float s_x[blockDim.x + 2];
 
     const int i = blockDim.x * blockIdx.x + threadIdx.x;
     const int tid = threadIdx.x ;
 
+    // If i == 0 or i == N-1, endpoints
+      // if i == 0, xb = x[1]
+
     if (i < N) {
-      s_x[tid + HALO] = x[i];
-
-      s_x[tid] = (tid < HALO) ? x[i - HALO] : x[i];
-      s_x[tid + blockDim. + HALO] ? x[i + blockDim.x + HALO] : x[i];
-
-      __syncthreads();
-
+      // s_x[tid + HALO] = x[i];
       
-
+      float xb = (i == 0) ? x[0] : x[N-1]
+      
+      s_x[tid] = (tid == 0) ? xb : x[i - HALO];
     }
-
-
-
-
-
-    // s_x = 0.f;
-    // s_x[tid] = (tid < HALO) ? x[i - HALO] : x[i];
-    // s_x[tid + blockSize] = (tid < HALO) ? x[i + blockSize + HALO]: x[i];
-
-    // s_xn1 = (i == 0 && tid == 0) ? s_x[i - HALO] : s_x[tid + HALO - 1];
-    // s_xp1 = (i == N - 1 && tid == blockSize + 2) ? s_x[i + HALO] : s_x[tid + blockSize]
-
-    // s_x = 0.f;
-    // // Populate shared memory
-    // if (tid < HALO) {
-    //     // Left halo point for shared memory
-    //     s_x[tid] = x[i - HALO];
-    //     // Right halo point for shared memory
-    //     s_x[tid + blockSize] = x[i + HALO];
-    // }
-    // // Internal shared memory points
-    // s_x[tid + HALO] = x[i];
-
-    // Synchronize threads
     __syncthreads();
 
     // Compute y[i]

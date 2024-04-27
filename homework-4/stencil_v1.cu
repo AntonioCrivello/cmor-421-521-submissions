@@ -6,14 +6,17 @@ __global__ void stencil(const int N, float * y, const float * x) {
 
     const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-    float xn1, xn, xp1;
-    xn = x[i];
+    if (i < N) {
+      float xm1, xn, xp1;
+      xn = x[i];
+      // Handle left boundary condition
+      xm1 = (i == 0) ? xn : x[i - 1];
+      // Handle right boundary condition
+      xp1 = (i == N - 1) ? xn : x[i + 1];
 
-    xn1 = (i == 0) ? xn : x[i - 1];
-    xp1 = (i == N - 1) ? xn : x[i + 1];
-
-    y[i] = -1 * xp1 + 2 * xn - xn1;
-
+      // Apply stencil operation 
+      y[i] = -1 * xp1 + 2 * xn - xm1; 
+    }
 }
 
 int main(int argc, char * argv[]) {
@@ -29,20 +32,16 @@ int main(int argc, char * argv[]) {
     // Next largest multiple of blockSize
     int numBlocks = (N + blockSize - 1) / blockSize;
 
-    // x vector has n elements with two boundaries x_0 and x_n+1
-    // Define x vector
+    // Define x vector and set all elements to 1
     float *x = new float [N];
     int size_x = (N) * sizeof(float);
-
-    // Define y vector
-    float *y = new float [N];
-    int size_y = N * sizeof(float);
-
-    // Defining x_i = 1
     for (int i = 0; i < N; ++i) {
         x[i] = 1.f;
     }
-    
+
+    // Define y vector and initialize to all zeros
+    float *y = new float [N];
+    int size_y = N * sizeof(float);
     for (int i = 0; i < N; ++i) {
         y[i] = 0.f;
     }
@@ -63,9 +62,6 @@ int main(int argc, char * argv[]) {
     // Copy memory back to the CPU
     cudaMemcpy(y, d_y, size_y, cudaMemcpyDeviceToHost);
 
-    // Handle boundary conditions
-
-
     // Known solution of stencil
     float *y_solution = new float[N];
     for (int i = 0; i < N; ++i) {
@@ -75,7 +71,6 @@ int main(int argc, char * argv[]) {
     // Initialize error to zero
     float error = 0.f;
     for (int i = 0; i < N; ++i) {
-      // printf("y[i] = %f\n", y[i]);
       error += fabs(y[i] - y_solution[i]);
     }
     printf("error = %f\n", error);
