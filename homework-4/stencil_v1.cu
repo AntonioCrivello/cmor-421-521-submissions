@@ -7,10 +7,16 @@ __global__ void stencil(const int N, float * y, const float * x) {
     const int i = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (i < N) {
-        printf("i = %d\n", i);
+      float xm1, xn, xp1;
+      xn = x[i];
+      // Handle left boundary condition
+      xm1 = (i == 0) ? xn : x[i - 1];
+      // Handle right boundary condition
+      xp1 = (i == N - 1) ? xn : x[i + 1];
+
+      // Apply stencil operation 
+      y[i] = -1 * xp1 + 2 * xn - xm1; 
     }
-
-
 }
 
 int main(int argc, char * argv[]) {
@@ -26,22 +32,23 @@ int main(int argc, char * argv[]) {
     // Next largest multiple of blockSize
     int numBlocks = (N + blockSize - 1) / blockSize;
 
-    // x vector
-    float * x = new float [N];
-    int size_x = N * sizeof(float);
-
-    // y vector
-    float * y = new float [N];
-    int size_y = N * sizeof(float);
-
-    // Defining x_i = 1
+    // Define x vector and set all elements to 1
+    float *x = new float [N];
+    int size_x = (N) * sizeof(float);
     for (int i = 0; i < N; ++i) {
         x[i] = 1.f;
     }
 
+    // Define y vector and initialize to all zeros
+    float *y = new float [N];
+    int size_y = N * sizeof(float);
+    for (int i = 0; i < N; ++i) {
+        y[i] = 0.f;
+    }
+
     // Allocate memory and copy to the GPU
-    float * d_x;
-    float * d_y;
+    float *d_x;
+    float *d_y;
     cudaMalloc((void **) &d_x, size_x);
     cudaMalloc((void **) &d_y, size_y);
 
@@ -49,20 +56,24 @@ int main(int argc, char * argv[]) {
     cudaMemcpy(d_x, x, size_x, cudaMemcpyHostToDevice);
     cudaMemcpy(d_y, y, size_y, cudaMemcpyHostToDevice);
 
+    // Execute stencil kernel
     stencil <<< numBlocks, blockSize >>> (N, d_y, d_x);
 
-  // Known solution of stencil
-  float * y_solution = new float[N];
-  for (int i = 0; i < N; ++i) {
-        y_solution[i] = 1.f;
-  }
+    // Copy memory back to the CPU
+    cudaMemcpy(y, d_y, size_y, cudaMemcpyDeviceToHost);
 
-  // Initialize error to zero
-  int error = 0;
-  for (int i = 0; i < N; ++i) {
-    error += fabs(y[i] - y_solution[i]);
-  }
-  printf("error = %f\n", error);
+    // Known solution of stencil
+    float *y_solution = new float[N];
+    for (int i = 0; i < N; ++i) {
+        y_solution[i] = 0.f;
+    }
+
+    // Initialize error to zero
+    float error = 0.f;
+    for (int i = 0; i < N; ++i) {
+      error += fabs(y[i] - y_solution[i]);
+    }
+    printf("error = %f\n", error);
 
 #if 1
   int num_trials = 10;
@@ -74,7 +85,7 @@ int main(int argc, char * argv[]) {
   cudaEventRecord(start, 0);
 
   for (int i = 0; i < num_trials; ++i){
-    stencil <<< numBlocks, blockSize >>> (N, d_y, x);
+    stencil <<< numBlocks, blockSize >>> (N, d_y, d_x);
   }
 
   cudaEventRecord(stop, 0);
@@ -89,6 +100,15 @@ int main(int argc, char * argv[]) {
   printf("Time to run kernel on average: %6.6f ms.\n", average_time);
   
 #endif
+
+  // Free device memory
+  cudaFree(d_x);
+  cudaFree(d_y);
+
+  // Free host memory
+  delete[] x;
+  delete[] y;
+  delete[] y_solution;
 
   return 0;
 }

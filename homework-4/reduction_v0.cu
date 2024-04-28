@@ -120,5 +120,13 @@ int main(int argc, char *argv[])
 
 #endif
 
+  // Free device memory
+  cudaFree(d_x);
+  cudaFree(d_x_reduced);
+
+  // Free host memory
+  delete[] x;
+  delete[] x_reduced;
+
   return 0;
 }
