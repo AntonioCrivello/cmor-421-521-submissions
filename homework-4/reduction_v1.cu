@@ -42,7 +42,6 @@ __global__ void partial_reduction(const int N, float *x_reduced, const float *x)
 
 int main(int argc, char *argv[])
 {
-
   int N = 4194304;
   if (argc > 1)
   {

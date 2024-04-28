@@ -11,8 +11,12 @@ output_txt="docs/reduction_timings.txt"
 # Write headers to CSV files
 echo "Version, Kernel Avg Time (ms), FLOP Count" > "$output_csv"
 
+
 # Process each version
 for version in v0 v1 v2; do
+    # Compile reduction files
+    nvcc reduction_$version.cu -o reduction_$version
+
     # Run nvprof to get time of kernel
     time_output=$(nvprof ./reduction_$version 2>&1)
 

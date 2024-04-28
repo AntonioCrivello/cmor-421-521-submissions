@@ -5,10 +5,10 @@
 // Define size of halo
 #define HALO 1
 
-__global__ void stencil(const int N, float *y, const float *x) {
+__global__ void stencil(const int N, float *y, const float *x, int blockSize) {
 
     // Define shared memory with halo points include
-    __shared__ float s_x[blockDim.x + 2];
+    __shared__ float s_x[blockSize + 2];
 
     const int i = blockDim.x * blockIdx.x + threadIdx.x;
     const int tid = threadIdx.x ;
