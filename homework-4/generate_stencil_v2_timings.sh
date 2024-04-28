@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Delete files if already exist
-rm -rf "docs/stencil_v1_timings.csv"
-rm -rf "docs/stencil_v1_timings.txt"
+rm -rf "docs/stencil_v2_timings.csv"
+rm -rf "docs/stencil_v2_timings.txt"
 
 # Files to be written to
 output_csv="docs/stencil_v1_timings.csv"
@@ -16,10 +16,10 @@ for i in {1..10}; do
     blockSize=$((2**i))
 
     # Run nvprof with stencil_v1 executable and the current block size to get time of kernel
-    time_output=$(nvprof ./stencil_v1 $blockSize 2>&1)
+    time_output=$(nvprof ./stencil_v2 $blockSize 2>&1)
 
     # Run nvprof with stencil_v1 executable and the current block size to get flops
-    flop_output=$(nvprof --metrics flop_count_sp ./stencil_v1 $blockSize 2>&1)
+    flop_output=$(nvprof --metrics flop_count_sp ./stencil_v2 $blockSize 2>&1)
 
     # Extract stencil kernel average time
     kernel_time=$(echo "$time_output" | grep -P "stencil\(int, float\*, float const \*\)" | awk '{print $(NF-6)}')

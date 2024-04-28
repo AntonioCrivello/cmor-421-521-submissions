@@ -1,0 +1,93 @@
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 32, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 64, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 128, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 256, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 32, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 64, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 128, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 256, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 32, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 64, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 128, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 256, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 32, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 64, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 128, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 256, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 4, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 8, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 16, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 32, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 64, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 128, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 256, Stencil Kernel Avg Time: , FLOP Count: 
+Block Size: 2, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 4, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 8, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 16, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 32, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 64, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 128, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 256, Stencil Kernel Avg Time: stencil(int, ms, FLOP Count: 12582912
+Block Size: 2, Stencil Kernel Avg Time: 15.588ms ms, FLOP Count: 12582912
+Block Size: 4, Stencil Kernel Avg Time: 7.8090ms ms, FLOP Count: 12582912
+Block Size: 8, Stencil Kernel Avg Time: 3.9362ms ms, FLOP Count: 12582912
+Block Size: 16, Stencil Kernel Avg Time: 2.0121ms ms, FLOP Count: 12582912
+Block Size: 32, Stencil Kernel Avg Time: 1.0246ms ms, FLOP Count: 12582912
+Block Size: 64, Stencil Kernel Avg Time: 563.45us ms, FLOP Count: 12582912
+Block Size: 128, Stencil Kernel Avg Time: 329.57us ms, FLOP Count: 12582912
+Block Size: 256, Stencil Kernel Avg Time: 340.93us ms, FLOP Count: 12582912
+Block Size: 2, Stencil Kernel Avg Time: 15.492ms ms, FLOP Count: 12582912
+Block Size: 4, Stencil Kernel Avg Time: 7.7672ms ms, FLOP Count: 12582912
+Block Size: 8, Stencil Kernel Avg Time: 3.9141ms ms, FLOP Count: 12582912
+Block Size: 16, Stencil Kernel Avg Time: 2.0004ms ms, FLOP Count: 12582912
+Block Size: 32, Stencil Kernel Avg Time: 1.0201ms ms, FLOP Count: 12582912
+Block Size: 64, Stencil Kernel Avg Time: 561.56us ms, FLOP Count: 12582912
+Block Size: 128, Stencil Kernel Avg Time: 329.82us ms, FLOP Count: 12582912
+Block Size: 256, Stencil Kernel Avg Time: 341.09us ms, FLOP Count: 12582912
+Block Size: 2, Stencil Kernel Avg Time: 15.475ms ms, FLOP Count: 12582912
+Block Size: 4, Stencil Kernel Avg Time: 7.7629ms ms, FLOP Count: 12582912
+Block Size: 8, Stencil Kernel Avg Time: 3.9113ms ms, FLOP Count: 12582912
+Block Size: 16, Stencil Kernel Avg Time: 2.0117ms ms, FLOP Count: 12582912
+Block Size: 32, Stencil Kernel Avg Time: 1.0245ms ms, FLOP Count: 12582912
+Block Size: 64, Stencil Kernel Avg Time: 562.81us ms, FLOP Count: 12582912
+Block Size: 128, Stencil Kernel Avg Time: 329.70us ms, FLOP Count: 12582912
+Block Size: 256, Stencil Kernel Avg Time: 340.80us ms, FLOP Count: 12582912
+Block Size: 2, Stencil Kernel Avg Time: 15.589 ms, FLOP Count: 12582912
+Block Size: 4, Stencil Kernel Avg Time: 7.8092 ms, FLOP Count: 12582912
+Block Size: 8, Stencil Kernel Avg Time: 3.9373 ms, FLOP Count: 12582912
+Block Size: 16, Stencil Kernel Avg Time: 2.0127 ms, FLOP Count: 12582912
+Block Size: 32, Stencil Kernel Avg Time: 1.0249 ms, FLOP Count: 12582912
+Block Size: 64, Stencil Kernel Avg Time: 0.563 ms, FLOP Count: 12582912
+Block Size: 128, Stencil Kernel Avg Time: 0.330 ms, FLOP Count: 12582912
+Block Size: 256, Stencil Kernel Avg Time: 0.341 ms, FLOP Count: 12582912
+Block Size: 512, Stencil Kernel Avg Time: 0.360 ms, FLOP Count: 12582912
+Block Size: 1024, Stencil Kernel Avg Time: 0.403 ms, FLOP Count: 12582912

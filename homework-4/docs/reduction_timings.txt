@@ -1,0 +1,3 @@
+v0: Kernel Avg Time: 1.3171 ms, FLOP Count: 4161536
+v1: Kernel Avg Time: 0.825 ms, FLOP Count: 4161536
+v2: Kernel Avg Time: 0.414 ms, FLOP Count: 4177920
