@@ -11,6 +11,9 @@ output_txt="docs/stencil_v1_timings.txt"
 # Write headers to CSV file
 echo "Block Size, Stencil Kernel Avg Time (ms), FLOP Count" > "$output_csv"
 
+# Compile file
+nvcc stencil_v2.cu -o stencil_v2
+
 for i in {1..10}; do
     # Calculate for blocks of size 2^i
     blockSize=$((2**i))
