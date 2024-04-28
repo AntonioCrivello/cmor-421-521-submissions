@@ -17,7 +17,6 @@ __global__ void stencil(const int N, float * y, const float * x) {
 
     y[i] = -1 * s_x[i - 1] + 2 * s_x[i] - s_x[i - 1]
 
-
 }
 
 int main(int argc, char * argv[]) {
