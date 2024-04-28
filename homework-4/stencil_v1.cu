@@ -13,6 +13,8 @@ __global__ void stencil(const int N, float * y, const float * x) {
       xm1 = (i == 0) ? xn : x[i - 1];
       // Handle right boundary condition
       xp1 = (i == N - 1) ? xn : x[i + 1];
+      
+      __syncthreads();
 
       // Apply stencil operation 
       y[i] = -1 * xp1 + 2 * xn - xm1; 

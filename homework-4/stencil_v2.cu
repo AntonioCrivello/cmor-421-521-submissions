@@ -5,24 +5,37 @@
 // Define size of halo
 #define HALO 1
 
-__global__ void stencil(const int N, float *y, const float *x, int blockSize) {
+__global__ void stencil(const int N, float *y, const float *x) {
 
     // Define shared memory with halo points include
-    __shared__ float s_x[blockSize + 2];
+    extern __shared__ float s_x[];
 
     const int i = blockDim.x * blockIdx.x + threadIdx.x;
-    const int tid = threadIdx.x ;
-
-    // If i == 0 or i == N-1, endpoints
-      // if i == 0, xb = x[1]
+    const int tid = threadIdx.x;
+    const int s_tid = tid + HALO;
 
     if (i < N) {
-        s_x[tid] = x[i];
+        // Load shared memory for internal cells
+        s_x[s_tid] = x[i];
+
+        // Load halo cells into shared memory
+        if (tid == 0) {
+            // Handle the left halo by checking if at the global left boundary
+            s_x[s_tid - HALO] = (i == 0) ? x[i] : x[i - HALO];
+        }
+        if (tid == blockDim.x - 1) {
+            // Handle the right halo by checking if at the global right boundary
+            s_x[s_tid + HALO] = (i == N - 1) ? x[i] : x[i + HALO];
+        }
+
+        __syncthreads();
+
+        float xm1 = (i == 0) ? s_x[s_tid] : s_x[s_tid - 1];
+        float xp1 = (i == N - 1) ? s_x[s_tid] : s_x[s_tid + 1];
+        // Apply stencil operation
+        y[i] = -xm1 + 2 * s_x[s_tid] - xp1;
+
     }
-
-    y[i] = -1 * s_x[i - 1] + 2 * s_x[i] - s_x[i - 1]
-
-
 }
 
 int main(int argc, char * argv[]) {
@@ -38,18 +51,22 @@ int main(int argc, char * argv[]) {
     // Next largest multiple of blockSize
     int numBlocks = (N + blockSize - 1) / blockSize;
 
-    // x vector
-    float * x = new float [N];
-    int size_x = N * sizeof(float);
-
-    // y vector
-    float * y = new float [N];
-    int size_y = N * sizeof(float);
-
-    // Defining x_i = 1
+    // Define x vector and set all elements to 1
+    float *x = new float [N];
+    int size_x = (N) * sizeof(float);
     for (int i = 0; i < N; ++i) {
         x[i] = 1.f;
     }
+
+    // Define y vector and initialize to all zeros
+    float *y = new float [N];
+    int size_y = N * sizeof(float);
+    for (int i = 0; i < N; ++i) {
+        y[i] = 0.f;
+    }
+
+    // Shared memory size
+    int sharedMemSize = (blockSize + 2 * HALO) * sizeof(float);
 
     // Allocate memory and copy to the GPU
     float * d_x;
@@ -61,10 +78,10 @@ int main(int argc, char * argv[]) {
     cudaMemcpy(d_x, x, size_x, cudaMemcpyHostToDevice);
     cudaMemcpy(d_y, y, size_y, cudaMemcpyHostToDevice);
 
-    stencil <<< numBlocks, blockSize >>> (N, d_y, d_x);
+    stencil <<< numBlocks, blockSize, sharedMemSize >>> (N, d_y, d_x);
 
     // Copy memory back to the CPU
-    cudaMemcpy(y, d_y, size_y, cudaMemcpyHostToDevice);
+    cudaMemcpy(y, d_y, size_y, cudaMemcpyDeviceToHost);
 
     // Known solution of stencil
     float *y_solution = new float[N];
@@ -89,7 +106,7 @@ int main(int argc, char * argv[]) {
   cudaEventRecord(start, 0);
 
   for (int i = 0; i < num_trials; ++i){
-    stencil <<< numBlocks, blockSize >>> (N, d_y, d_x);
+    stencil <<< numBlocks, blockSize, sharedMemSize >>> (N, d_y, d_x);
   }
 
   cudaEventRecord(stop, 0);

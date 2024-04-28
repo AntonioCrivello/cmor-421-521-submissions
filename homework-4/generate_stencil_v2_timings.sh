@@ -5,8 +5,8 @@ rm -rf "docs/stencil_v2_timings.csv"
 rm -rf "docs/stencil_v2_timings.txt"
 
 # Files to be written to
-output_csv="docs/stencil_v1_timings.csv"
-output_txt="docs/stencil_v1_timings.txt"
+output_csv="docs/stencil_v2_timings.csv"
+output_txt="docs/stencil_v2_timings.txt"
 
 # Write headers to CSV file
 echo "Block Size, Stencil Kernel Avg Time (ms), FLOP Count" > "$output_csv"
