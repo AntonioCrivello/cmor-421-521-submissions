@@ -36,7 +36,7 @@ __global__ void stencil(const int N, float *y, const float *x)
         float xm1 = (i == 0) ? s_x[s_tid] : s_x[s_tid - 1];
         float xp1 = (i == N - 1) ? s_x[s_tid] : s_x[s_tid + 1];
         // Apply stencil operation
-        y[i] = -xm1 + 2 * s_x[s_tid] - xp1;
+        y[i] = -1 * xp1 + 2 * s_x[s_tid] - xm1;
     }
 }
 
